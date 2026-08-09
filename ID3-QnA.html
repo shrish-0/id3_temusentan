@@ -1,475 +1,322 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Sentan Navi - Q&A</title>
+  <title>Sentan Navi - Q&A</title>
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      margin: 0;
+      padding: 20px;
+    }
 
-<style>
-:root {
-  --green-deep: #17965d;
-  --green-mid: #3f8a63;
-  --lime: #8dc63f;
-  --link-blue: #3b5fe0;
-  --ink: #1b241f;
-  --ink-soft: #5b6862;
-  --bg: #fbfcfa;
-  --card-bg: #ffffff;
-  --radius-lg: 22px;
-}
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 15px 25px;
+      background: white;
+      border-bottom: 4px solid #90c41f;
+      margin: -20px -20px 20px -20px;
+    }
 
-* {
-  box-sizing: border-box;
-}
+    header h1 {
+      flex: 1;
+      text-align: center;
+      color: #0e955a;
+      font-size: 2.2rem;
+      font-weight: bold;
+      margin: 0;
+    }
 
-body {
-  margin: 0;
-  background: var(--bg);
-  font-family: 'Inter', sans-serif;
-  color: var(--ink);
-}
+    .logo {
+      width: auto;
+      height: auto;
+      max-height: 55px;
+    }
 
-h1,
-h3 {
-  font-family: 'Poppins', sans-serif;
-}
+    .menu-btn {
+      width: 60px;
+      height: 60px;
+      border: none;
+      border-radius: 12px;
+      background: #0e955a;
+      color: white;
+      font-size: 2rem;
+      cursor: pointer;
+      transition: 0.2s ease;
+      margin: 0;
+      padding: 0;
+    }
 
-img {
-  display: block;
-}
+    .menu-btn:hover {
+      background: #90c41f;
+    }
 
-.topbar {
-  background-color: var(--green-deep);
-  color: white;
-  padding: 15px 25px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
+    .nav-sidebar {
+      position: fixed;
+      top: 0;
+      right: -300px;
+      width: 300px;
+      height: 100vh;
+      background: white;
+      border-left: 4px solid #0e955a;
+      padding: 20px;
+      transition: right 0.3s ease;
+      z-index: 1000;
+      box-shadow: -2px 0 15px rgba(0, 0, 0, 0.2);
+      overflow-y: auto;
+      box-sizing: border-box;
+    }
 
-.topbar strong {
-  font-family: 'Poppins', sans-serif;
-  font-size: 1.2rem;
-}
+    .nav-sidebar.active {
+      right: 0;
+    }
 
-.topbar a {
-  color: white;
-  text-decoration: none;
-  margin-left: 20px;
-  font-size: 14px;
-  font-weight: 600;
-}
+    .nav-sidebar h3 {
+      margin-top: 25px;
+      margin-bottom: 10px;
+      color: #0e955a;
+      border-bottom: 2px solid #90c41f;
+      padding-bottom: 5px;
+    }
 
-.topbar a:hover {
-  color: var(--lime);
-}
+    .nav-sidebar a {
+      display: block;
+      text-decoration: none;
+      color: #222;
+      padding: 10px;
+      margin-bottom: 5px;
+      border-radius: 8px;
+    }
 
-.app {
-  display: grid;
-  grid-template-columns: 260px 1fr;
-  min-height: calc(100vh - 54px);
-}
+    .nav-sidebar a:hover {
+      background: #90c41f;
+      color: white;
+    }
 
-.sidebar {
-  padding: 32px 20px;
-  border-right: 1px solid #eef1ec;
-}
+    .close-btn {
+      border: none;
+      background: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: #0e955a;
+      margin-bottom: 10px;
+      padding: 5px;
+    }
 
-.nav-item {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 12px 10px;
-  border-radius: 12px;
-  color: var(--green-deep);
-  font-weight: 600;
-  text-decoration: none;
-}
+    .box {
+      background-color: white;
+      border: 1px solid #f4f4f4;
+      border-radius: 6px;
+      padding: 20px;
+      max-width: 600px;
+      margin-bottom: 20px;
+    }
 
-.nav-item:hover {
-  background: #eef7ee;
-}
+    .box h1 {
+      font-size: 18px;
+      color: #0e995a;
+      margin-top: 0;
+    }
 
-.nav-item img {
-  width: 22px;
-  height: 22px;
-}
+    label {
+      display: block;
+      margin-top: 12px;
+      font-weight: bold;
+      font-size: 14px;
+      color: #0e995a;
+    }
 
-.schedule-card {
-  margin-top: 48px;
-  border: 2px solid var(--green-deep);
-  border-radius: var(--radius-lg);
-  padding: 18px 16px;
-}
+    input,
+    select,
+    textarea {
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+      border: 1px solid #f4f4f4;
+      border-radius: 4px;
+      box-sizing: border-box;
+      font-family: inherit;
+    }
 
-.schedule-list {
-  list-style: none;
-  margin: 0 0 12px;
-  padding: 0;
-}
+    button[type="submit"] {
+      background-color: #0e995a;
+      color: white;
+      border: none;
+      padding: 10px 18px;
+      border-radius: 4px;
+      cursor: pointer;
+      margin-top: 15px;
+    }
 
-.schedule-list li {
-  margin-bottom: 2px;
-  font-size: .85rem;
-}
+    button[type="submit"]:hover {
+      background-color: #90c41f;
+    }
 
-.schedule-num {
-  font-weight: 700;
-  color: var(--green-mid);
-}
+    #confirmMsg {
+      display: none;
+      background-color: #90c41f;
+      color: white;
+      padding: 10px;
+      border-radius: 4px;
+      margin-top: 10px;
+      font-size: 14px;
+    }
 
-.schedule-list b {
-  font-size: .88rem;
-  font-weight: 600;
-}
+    .question {
+      border-bottom: 1px solid #f4f4f4;
+      padding: 12px 0;
+    }
 
-.schedule-link {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 8px;
-  margin: 0 -8px;
-  border-radius: 8px;
-  text-decoration: none;
-  color: inherit;
-}
+    .question:last-child {
+      border-bottom: none;
+    }
 
-.schedule-link:hover {
-  background: #eef7ee;
-}
+    .answered {
+      color: #48604d;
+      font-weight: bold;
+      font-size: 12px;
+    }
 
-.schedule-link.active {
-  background: #eef7ee;
-}
+    .pending {
+      color: #a67c1e;
+      font-weight: bold;
+      font-size: 12px;
+    }
 
-.main {
-  padding: 32px 40px 48px;
-}
+    @media (max-width: 600px) {
+      header {
+        padding: 12px 16px;
+      }
 
-.box {
-  background: var(--card-bg);
-  border: 2px solid var(--lime);
-  border-radius: var(--radius-lg);
-  padding: 22px 26px;
-  max-width: 900px;
-  margin-bottom: 22px;
-}
+      header h1 {
+        font-size: 1.6rem;
+      }
 
-.box h1 {
-  font-size: 1.4rem;
-  color: var(--green-deep);
-  margin-top: 0;
-  margin-bottom: 20px;
-}
+      .logo {
+        max-width: 120px;
+      }
 
-label {
-  display: block;
-  margin-top: 16px;
-  font-weight: 600;
-  font-size: 14px;
-  color: var(--green-deep);
-}
-
-input,
-select,
-textarea {
-  width: 100%;
-  padding: 10px;
-  margin-top: 6px;
-  border: 1px solid #dce3dd;
-  border-radius: 8px;
-  box-sizing: border-box;
-  font-family: inherit;
-  font-size: 14px;
-  background: white;
-}
-
-input:focus,
-select:focus,
-textarea:focus {
-  outline: none;
-  border-color: var(--green-deep);
-}
-
-button {
-  background-color: var(--green-deep);
-  color: white;
-  border: none;
-  padding: 10px 18px;
-  border-radius: 8px;
-  cursor: pointer;
-  margin-top: 18px;
-  font-family: 'Inter', sans-serif;
-  font-weight: 600;
-}
-
-button:hover {
-  background-color: var(--lime);
-}
-
-#confirmMsg {
-  display: none;
-  background-color: var(--lime);
-  color: white;
-  padding: 10px 14px;
-  border-radius: 8px;
-  margin-top: 12px;
-  font-size: 14px;
-  font-weight: 600;
-}
-
-.question {
-  border-bottom: 1px solid #eef1ec;
-  padding: 16px 0;
-}
-
-.question:last-child {
-  border-bottom: none;
-}
-
-.question strong {
-  font-family: 'Poppins', sans-serif;
-}
-
-.question p {
-  margin: 6px 0 0;
-  color: var(--ink-soft);
-  font-size: 14px;
-}
-
-.answered {
-  color: var(--green-mid) !important;
-  font-weight: 700;
-  font-size: 12px !important;
-}
-
-.pending {
-  color: #a67c1e !important;
-  font-weight: 700;
-  font-size: 12px !important;
-}
-
-@media (max-width: 1000px) {
-  .app {
-    grid-template-columns: 1fr;
-  }
-
-  .sidebar {
-    border-right: none;
-    border-bottom: 1px solid #eef1ec;
-  }
-}
-
-@media (max-width: 600px) {
-  .topbar {
-    padding: 14px 16px;
-  }
-
-  .topbar a {
-    margin-left: 10px;
-    font-size: 12px;
-  }
-
-  .main {
-    padding: 24px 18px 40px;
-  }
-}
-</style>
+      .menu-btn {
+        width: 50px;
+        height: 50px;
+        font-size: 1.6rem;
+      }
+    }
+  </style>
 </head>
 
 <body>
 
-<div class="topbar">
-  <strong>Sentan Navi</strong>
+  <header>
+    <img
+      class="logo"
+      src="https://www.kuas.ac.jp/wp-content/themes/kuasuni-theme/build/images/kuasuni-logo-sm.png"
+      alt="KUAS Logo">
 
-  <div>
-    <a href="homepage.html">Home</a>
-    <a href="ID3-Calendar.html">Calendar</a>
-    <a href="ID3-QnA.html">Q&amp;A</a>
+    <h1>KUAS ナビ</h1>
+
+    <button class="menu-btn">☰</button>
+  </header>
+
+  <div id="nav-sidebar" class="nav-sidebar">
+
+    <button class="close-btn" onclick="toggleMenu()">✕</button>
+
+    <h3>Academic</h3>
+    <a href="#">Schedule</a>
+    <a href="#">Attendance</a>
+    <a href="#">Class Profile</a>
+
+    <h3>Student Services</h3>
+    <a href="#">MyStep</a>
+    <a href="#">Q&amp;A</a>
+    <a href="#">Notices</a>
+
+    <h3>Communication</h3>
+    <a href="#">Sentan Mail</a>
+    <a href="#">Announcements</a>
+
+    <h3>Settings</h3>
+    <a href="#">Preferences</a>
+
   </div>
-</div>
 
-<div class="app">
+  <div class="box">
+    <h1>Ask a Question</h1>
 
-  <aside class="sidebar">
+    <form id="qaForm">
 
-    <a class="nav-item" href="#">
-      <img src="https://i.ibb.co/B52rXLsW/home.png" alt="">
-      Dashboard
-    </a>
+      <label>Send to:</label>
 
-    <a class="nav-item" href="#">
-      <img src="https://i.ibb.co/FkW8VzgF/assignments.png" alt="">
-      Assignments
-    </a>
+      <select>
+        <option>Student Affairs Center</option>
+        <option>Financial Affairs Division</option>
+        <option>Academic Office</option>
+      </select>
 
-    <a class="nav-item" href="#">
-      <img src="https://i.ibb.co/TqrkTj12/material.png" alt="">
-      Materials
-    </a>
+      <label>Subject:</label>
 
-    <a class="nav-item" href="#">
-      <img src="https://i.ibb.co/1GfKKZMc/tests.png" alt="">
-      Tests
-    </a>
+      <input type="text" required>
 
-    <a class="nav-item" href="#">
-      <img src="https://i.ibb.co/Fkx3ct6X/grades.png" alt="">
-      Grades
-    </a>
+      <label>Message:</label>
 
-    <a class="nav-item" href="#">
-      <img src="https://i.ibb.co/7xZK7PLt/Q-A.png" alt="">
-      Q&amp;A
-    </a>
+      <textarea rows="4" required></textarea>
 
-    <div class="schedule-card">
+      <button type="submit">Send</button>
 
-      <h3>Registered Classes</h3>
-
-      <ul class="schedule-list">
-
-        <li>
-          <a class="schedule-link" href="introduction-to-design.html">
-            <span class="schedule-num">1</span>
-            <span><b>Introduction to Design</b></span>
-          </a>
-        </li>
-
-        <li>
-          <a class="schedule-link" href="calculus-linear-algebra.html">
-            <span class="schedule-num">2</span>
-            <span><b>Calculus and Linear...</b></span>
-          </a>
-        </li>
-
-        <li>
-          <a class="schedule-link" href="engineering-physics-2.html">
-            <span class="schedule-num">3</span>
-            <span><b>Engineering Physics 2</b></span>
-          </a>
-        </li>
-
-        <li>
-          <a class="schedule-link" href="elementary-japanese-3.html">
-            <span class="schedule-num">4</span>
-            <span><b>Elementary Japanese 3</b></span>
-          </a>
-        </li>
-
-        <li>
-          <a class="schedule-link" href="algorithmic-thinking-and-programming.html">
-            <span class="schedule-num">5</span>
-            <span><b>Algorithmic Thinking...</b></span>
-          </a>
-        </li>
-
-        <li>
-          <a class="schedule-link" href="sls-3.html">
-            <span class="schedule-num">6</span>
-            <span><b>SLS III</b></span>
-          </a>
-        </li>
-
-        <li>
-          <a class="schedule-link" href="fundamentals-of-mechanics.html">
-            <span class="schedule-num">7</span>
-            <span><b>Fundamentals of...</b></span>
-          </a>
-        </li>
-
-      </ul>
-
-    </div>
-
-  </aside>
-
-  <main class="main">
-
-    <div class="box">
-
-      <h1>Ask a Question</h1>
-
-      <form id="qaForm">
-
-        <label>Send to:</label>
-
-        <select>
-          <option>Student Affairs Center</option>
-          <option>Financial Affairs Division</option>
-          <option>Academic Office</option>
-        </select>
-
-        <label>Subject:</label>
-
-        <input type="text" required>
-
-        <label>Message:</label>
-
-        <textarea rows="4" required></textarea>
-
-        <button type="submit">Send</button>
-
-        <div id="confirmMsg">
-          Your question has been sent!
-        </div>
-
-      </form>
-
-    </div>
-
-    <div class="box">
-
-      <h1>Your Questions</h1>
-
-      <div class="question">
-
-        <strong>Certificate of payment fee</strong>
-
-        <p class="answered">Answered</p>
-
-        <p>Financial Affairs Division - Jul 20, 2026</p>
-
+      <div id="confirmMsg">
+        Your question has been sent!
       </div>
 
-      <div class="question">
+    </form>
+  </div>
 
-        <strong>Lost student ID</strong>
+  <div class="box">
 
-        <p class="pending">Pending</p>
+    <h1>Your Questions</h1>
 
-        <p>Student Affairs Center - Jul 22, 2026</p>
-
-      </div>
-
+    <div class="question">
+      <strong>Certificate of payment fee</strong>
+      <p class="answered">Answered</p>
+      <p>Financial Affairs Division - Jul 20, 2026</p>
     </div>
 
-  </main>
+    <div class="question">
+      <strong>Lost student ID</strong>
+      <p class="pending">Pending</p>
+      <p>Student Affairs Center - Jul 22, 2026</p>
+    </div>
 
-</div>
+  </div>
 
-<script>
-var form = document.getElementById("qaForm");
-var confirmMsg = document.getElementById("confirmMsg");
+  <script>
+    const menuBtn = document.querySelector(".menu-btn");
+    const navSidebar = document.getElementById("nav-sidebar");
 
-form.addEventListener("submit", function (event) {
+    window.toggleMenu = function () {
+      navSidebar.classList.toggle("active");
+    };
 
-  event.preventDefault();
+    menuBtn.addEventListener("click", toggleMenu);
 
-  confirmMsg.style.display = "block";
+    var form = document.getElementById("qaForm");
+    var confirmMsg = document.getElementById("confirmMsg");
 
-  form.reset();
+    form.addEventListener("submit", function (event) {
+      event.preventDefault();
 
-  setTimeout(function () {
-    confirmMsg.style.display = "none";
-  }, 4000);
+      confirmMsg.style.display = "block";
+      form.reset();
 
-});
-</script>
+      setTimeout(function () {
+        confirmMsg.style.display = "none";
+      }, 4000);
+    });
+  </script>
 
 </body>
 
