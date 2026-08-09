@@ -1,208 +1,174 @@
-/* Logo */
-<style>
-.logo {
-    width: auto;
-    height: auto;
-}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KUAS ナビ</title>
 
-/* Menu Button */
-.menu-btn {
-    width: 70px;
-    height: 70px;
+    <style>
+        :root {
+            --primary-green: #0e955a;
+            --secondary-green: #90c41f;
+            --accent-gray: #D3D3D3;
+            --text-dark: #222;
+            --white: #ffffff;
+        }
 
-    border: none;
-    border-radius: 12px;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-    background: var(--primary-green);
-    color: white;
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f6f5;
+            color: var(--text-dark);
+            padding: 20px;
+        }
 
-    font-size: 2rem;
-    cursor: pointer;
+        .container {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 40px;
+        }
 
-    transition: 0.2s ease;
-}
+        header {
+            grid-column: 1 / -1;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+            border-bottom: 4px solid var(--secondary-green);
+        }
 
-.menu-btn:hover {
-    background: var(--secondary-green);
-}
-const menuBtn = document.querySelector(".menu-btn");
-const sidebar = document.getElementById("sidebar");
+        header h1 {
+            flex: 1;
+            text-align: center;
+            color: var(--primary-green);
+            font-size: 2.5rem;
+            font-weight: bold;
+        }
 
-window.toggleMenu = function () {
-    document.getElementById("sidebar")
-            .classList.toggle("active");
-};
-:root {
-    --primary-green: #0e955a;
-    --secondary-green: #90c41f;
-    --accent-gray: #D3D3D3;
+        .logo {
+            width: auto;
+            height: auto;
+        }
 
-    --text-dark: #222;
-    --white: #ffffff;
-}
+        .menu-btn {
+            width: 70px;
+            height: 70px;
+            border: none;
+            border-radius: 12px;
+            background: var(--primary-green);
+            color: white;
+            font-size: 2rem;
+            cursor: pointer;
+            transition: 0.2s ease;
+        }
 
-/* Reset */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
+        .menu-btn:hover {
+            background: var(--secondary-green);
+        }
 
-/* Page */
-body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f6f5;
-    color: var(--text-dark);
-    padding: 20px;
-}
+        .sidebar {
+            position: fixed;
+            top: 0;
+            right: -300px;
+            width: 300px;
+            height: 100vh;
+            background: white;
+            border-left: 4px solid var(--primary-green);
+            padding: 20px;
+            transition: right 0.3s ease;
+            z-index: 1000;
+            box-shadow: -2px 0 15px rgba(0, 0, 0, 0.2);
+        }
 
-/* Main Layout */
-.container {
-    display: grid;
-    grid-template-columns: 2fr 1fr;
-    gap: 40px;
-}
+        .sidebar.active {
+            right: 0;
+        }
 
-/* Header */
-header {
-    grid-column: 1 / -1;
+        .sidebar h3 {
+            margin-top: 25px;
+            margin-bottom: 10px;
+            color: var(--primary-green);
+            border-bottom: 2px solid var(--secondary-green);
+            padding-bottom: 5px;
+        }
 
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+        .sidebar a {
+            display: block;
+            text-decoration: none;
+            color: var(--text-dark);
+            padding: 10px;
+            margin-bottom: 5px;
+            border-radius: 8px;
+        }
 
-    padding-bottom: 15px;
-    margin-bottom: 20px;
+        .sidebar a:hover {
+            background: var(--secondary-green);
+            color: white;
+        }
 
-    border-bottom: 4px solid var(--secondary-green);
-}
+        .close-btn {
+            border: none;
+            background: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--primary-green);
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
 
-header h1 {
-    flex: 1;
-    text-align: center;
+<body>
 
-    color: var(--primary-green);
-    font-size: 2.5rem;
-    font-weight: bold;
-}
+    <div class="container">
+        <header>
+            <img
+                class="logo"
+                src="https://www.kuas.ac.jp/wp-content/themes/kuasuni-theme/build/images/kuasuni-logo-sm.png"
+                alt="KUAS Logo">
 
-/* Logo */
-.logo {
-    width: auto;
-    height: auto;
-}
+            <h1>KUAS ナビ</h1>
 
-/* Menu Button */
-.menu-btn {
-    width: 70px;
-    height: 70px;
+            <button class="menu-btn">☰</button>
+        </header>
 
-    border: none;
-    border-radius: 12px;
-background: var(--primary-green);
-    color: white;
+        <div id="sidebar" class="sidebar">
+            <button class="close-btn" onclick="toggleMenu()">✕</button>
 
-    font-size: 2rem;
-    cursor: pointer;
+            <h3>Academic</h3>
+            <a href="#">Schedule</a>
+            <a href="#">Attendance</a>
+            <a href="#">Class Profile</a>
 
-    transition: 0.2s ease;
-}
+            <h3>Student Services</h3>
+            <a href="#">MyStep</a>
+            <a href="#">Q&A</a>
+            <a href="#">Notices</a>
 
-.menu-btn:hover {
-    background: var(--secondary-green);
-}
-.sidebar {
-    position: fixed;
-    top: 0;
-    right: -300px;
+            <h3>Communication</h3>
+            <a href="#">Sentan Mail</a>
+            <a href="#">Announcements</a>
 
-    width: 300px;
-    height: 100vh;
-
-    background: white;
-    border-left: 4px solid var(--primary-green);
-
-    padding: 20px;
-
-    transition: right 0.3s ease;
-
-    z-index: 1000;
-
-    box-shadow: -2px 0 15px rgba(0, 0, 0, 0.2);
-}
-
-.sidebar.active {
-    right: 0;
-}
-
-.sidebar h3 {
-    margin-top: 25px;
-    margin-bottom: 10px;
-
-    color: var(--primary-green);
-
-    border-bottom: 2px solid var(--secondary-green);
-    padding-bottom: 5px;
-}
-
-.sidebar a {
-    display: block;
-
-    text-decoration: none;
-    color: var(--text-dark);
-
-    padding: 10px;
-    margin-bottom: 5px;
-
-    border-radius: 8px;
-}
-
-.sidebar a:hover {
-    background: var(--secondary-green);
-    color: white;
-}
-
-.close-btn {
-    border: none;
-    background: none;
-    font-size: 1.5rem;
-    cursor: pointer;
-    color: var(--primary-green);
-    margin-bottom: 10px;
-}
-</style>
-
-menuBtn.addEventListener("click", toggleMenu);
-<header>
-        <img
-            class="logo"
-            src="https://www.kuas.ac.jp/wp-content/themes/kuasuni-theme/build/images/kuasuni-logo-sm.png"
-            alt="KUAS Logo">
-        <h1>KUAS ナビ</h1>
-
-        <button class="menu-btn">☰</button>
-        </button>
-    </header>
-
-    <div id="sidebar" class="sidebar">
-    
-        <button class="close-btn" onclick="toggleMenu()">✕</button>
-    
-        <h3>Academic</h3>
-        <a href="#">Schedule</a>
-        <a href="#">Attendance</a>
-        <a href="#">Class Profile</a>
-    
-        <h3>Student Services</h3>
-        <a href="#">MyStep</a>
-        <a href="#">Q&A</a>
-        <a href="#">Notices</a>
-    
-        <h3>Communication</h3>
-        <a href="#">Sentan Mail</a>
-        <a href="#">Announcements</a>
-    
-        <h3>Settings</h3>
-        <a href="#">Preferences</a>
-    
+            <h3>Settings</h3>
+            <a href="#">Preferences</a>
+        </div>
     </div>
+
+    <script>
+        const menuBtn = document.querySelector(".menu-btn");
+        const sidebar = document.getElementById("sidebar");
+
+        window.toggleMenu = function () {
+            sidebar.classList.toggle("active");
+        };
+
+        menuBtn.addEventListener("click", toggleMenu);
+    </script>
+
+</body>
+</html>
