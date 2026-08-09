@@ -66,3 +66,142 @@ menuBtn.addEventListener("click", toggleMenu);
         <a href="#">Preferences</a>
     
     </div>
+
+:root {
+    --primary-green: #0e955a;
+    --secondary-green: #90c41f;
+    --accent-gray: #D3D3D3;
+
+    --text-dark: #222;
+    --white: #ffffff;
+}
+
+/* Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Page */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f6f5;
+    color: var(--text-dark);
+    padding: 20px;
+}
+
+/* Main Layout */
+.container {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 40px;
+}
+
+/* Header */
+header {
+    grid-column: 1 / -1;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+
+    border-bottom: 4px solid var(--secondary-green);
+}
+
+header h1 {
+    flex: 1;
+    text-align: center;
+
+    color: var(--primary-green);
+    font-size: 2.5rem;
+    font-weight: bold;
+}
+
+/* Logo */
+.logo {
+    width: auto;
+    height: auto;
+}
+
+/* Menu Button */
+.menu-btn {
+    width: 70px;
+    height: 70px;
+
+    border: none;
+    border-radius: 12px;
+background: var(--primary-green);
+    color: white;
+
+    font-size: 2rem;
+    cursor: pointer;
+
+    transition: 0.2s ease;
+}
+
+.menu-btn:hover {
+    background: var(--secondary-green);
+}
+.sidebar {
+    position: fixed;
+    top: 0;
+    right: -300px;
+
+    width: 300px;
+    height: 100vh;
+
+    background: white;
+    border-left: 4px solid var(--primary-green);
+
+    padding: 20px;
+
+    transition: right 0.3s ease;
+
+    z-index: 1000;
+
+    box-shadow: -2px 0 15px rgba(0, 0, 0, 0.2);
+}
+
+.sidebar.active {
+    right: 0;
+}
+
+.sidebar h3 {
+    margin-top: 25px;
+    margin-bottom: 10px;
+
+    color: var(--primary-green);
+
+    border-bottom: 2px solid var(--secondary-green);
+    padding-bottom: 5px;
+}
+
+.sidebar a {
+    display: block;
+
+    text-decoration: none;
+    color: var(--text-dark);
+
+    padding: 10px;
+    margin-bottom: 5px;
+
+    border-radius: 8px;
+}
+
+.sidebar a:hover {
+    background: var(--secondary-green);
+    color: white;
+}
+
+.close-btn {
+    border: none;
+    background: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: var(--primary-green);
+    margin-bottom: 10px;
+}
