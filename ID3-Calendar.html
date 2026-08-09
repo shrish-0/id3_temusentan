@@ -2,640 +2,483 @@
 <html lang="en">
 
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Sentan Navi - Calendar</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sentan Navi - Calendar</title>
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary-green: #0e955a;
+      --secondary-green: #90c41f;
+      --text-dark: #222;
+      --bg: #f4f4f4;
+    }
 
-<style>
-:root {
-  --green-deep: #17965d;
-  --green-mid: #3f8a63;
-  --lime: #8dc63f;
-  --link-blue: #3b5fe0;
-  --ink: #1b241f;
-  --ink-soft: #5b6862;
-  --bg: #fbfcfa;
-  --card-bg: #ffffff;
-  --radius-lg: 22px;
-}
+    * {
+      box-sizing: border-box;
+    }
 
-* {
-  box-sizing: border-box;
-}
+    body {
+      font-family: Arial, sans-serif;
+      background-color: var(--bg);
+      margin: 0;
+      padding: 20px;
+      color: var(--text-dark);
+    }
 
-body {
-  margin: 0;
-  background: var(--bg);
-  font-family: 'Inter', sans-serif;
-  color: var(--ink);
-}
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 15px 25px;
+      background: white;
+      border-bottom: 4px solid var(--secondary-green);
+      margin: -20px -20px 20px -20px;
+    }
 
-h1, h3 {
-  font-family: 'Poppins', sans-serif;
-}
+    header h1 {
+      flex: 1;
+      text-align: center;
+      color: var(--primary-green);
+      font-size: 2.2rem;
+      font-weight: bold;
+      margin: 0;
+    }
 
-img {
-  display: block;
-}
+    .logo {
+      width: auto;
+      height: auto;
+      max-height: 55px;
+    }
 
-.topbar {
-  background-color: var(--green-deep);
-  color: white;
-  padding: 15px 25px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
+    .menu-btn {
+      width: 60px;
+      height: 60px;
+      border: none;
+      border-radius: 12px;
+      background: var(--primary-green);
+      color: white;
+      font-size: 2rem;
+      cursor: pointer;
+      transition: 0.2s ease;
+    }
 
-.topbar strong {
-  font-family: 'Poppins', sans-serif;
-  font-size: 1.2rem;
-}
+    .menu-btn:hover {
+      background: var(--secondary-green);
+    }
 
-.topbar a {
-  color: white;
-  text-decoration: none;
-  margin-left: 20px;
-  font-size: 14px;
-  font-weight: 600;
-}
+    .nav-sidebar {
+      position: fixed;
+      top: 0;
+      right: -300px;
+      width: 300px;
+      height: 100vh;
+      background: white;
+      border-left: 4px solid var(--primary-green);
+      padding: 20px;
+      transition: right 0.3s ease;
+      z-index: 1000;
+      box-shadow: -2px 0 15px rgba(0, 0, 0, 0.2);
+      overflow-y: auto;
+    }
 
-.topbar a:hover {
-  color: var(--lime);
-}
+    .nav-sidebar.active {
+      right: 0;
+    }
 
-.app {
-  display: grid;
-  grid-template-columns: 260px 1fr;
-  min-height: calc(100vh - 54px);
-}
+    .nav-sidebar h3 {
+      margin-top: 25px;
+      margin-bottom: 10px;
+      color: var(--primary-green);
+      border-bottom: 2px solid var(--secondary-green);
+      padding-bottom: 5px;
+    }
 
-.sidebar {
-  padding: 32px 20px;
-  border-right: 1px solid #eef1ec;
-}
+    .nav-sidebar a {
+      display: block;
+      text-decoration: none;
+      color: var(--text-dark);
+      padding: 10px;
+      margin-bottom: 5px;
+      border-radius: 8px;
+    }
 
-.nav-item {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 12px 10px;
-  border-radius: 12px;
-  color: var(--green-deep);
-  font-weight: 600;
-  text-decoration: none;
-}
+    .nav-sidebar a:hover {
+      background: var(--secondary-green);
+      color: white;
+    }
 
-.nav-item:hover {
-  background: #eef7ee;
-}
+    .close-btn {
+      border: none;
+      background: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: var(--primary-green);
+      margin-bottom: 10px;
+    }
 
-.nav-item img {
-  width: 22px;
-  height: 22px;
-}
+    .calendar-box {
+      background-color: white;
+      border: 1px solid #f4f4f4;
+      border-radius: 6px;
+      padding: 15px;
+      max-width: 700px;
+    }
 
-.schedule-card {
-  margin-top: 48px;
-  border: 2px solid var(--green-deep);
-  border-radius: var(--radius-lg);
-  padding: 18px 16px;
-}
+    .calendar-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+    }
 
-.schedule-list {
-  list-style: none;
-  margin: 0 0 12px;
-  padding: 0;
-}
+    .calendar-header h1 {
+      font-size: 20px;
+      color: var(--primary-green);
+    }
 
-.schedule-list li {
-  margin-bottom: 2px;
-  font-size: .85rem;
-}
+    .calendar-header button,
+    #addEventForm button {
+      background-color: var(--primary-green);
+      color: white;
+      border: none;
+      padding: 6px 12px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
 
-.schedule-num {
-  font-weight: 700;
-  color: var(--green-mid);
-}
+    .calendar-header button:hover,
+    #addEventForm button:hover {
+      background-color: var(--secondary-green);
+    }
 
-.schedule-list b {
-  font-size: .88rem;
-  font-weight: 600;
-}
+    .day-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 5px;
+    }
 
-.schedule-link {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 8px;
-  margin: 0 -8px;
-  border-radius: 8px;
-  text-decoration: none;
-  color: inherit;
-}
+    .day-grid div {
+      text-align: center;
+      padding: 12px 5px;
+      background-color: #f4f4f4;
+      border-radius: 4px;
+      font-size: 14px;
+      min-height: 45px;
+    }
 
-.schedule-link:hover {
-  background: #eef7ee;
-}
+    .weekday {
+      font-weight: bold;
+      background-color: transparent !important;
+      color: var(--primary-green);
+      min-height: auto !important;
+    }
 
-.schedule-link.active {
-  background: #eef7ee;
-}
+    .today {
+      background-color: var(--secondary-green) !important;
+      font-weight: bold;
+      color: white;
+    }
 
-.main {
-  padding: 32px 40px 48px;
-}
+    .event {
+      display: block;
+      font-size: 10px;
+      color: var(--primary-green);
+      margin-top: 3px;
+    }
 
-.calendar-box {
-  background: var(--card-bg);
-  border: 2px solid var(--lime);
-  border-radius: var(--radius-lg);
-  padding: 22px 26px;
-  max-width: 900px;
-  margin-bottom: 22px;
-}
+    .today .event {
+      color: white;
+    }
 
-.calendar-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
-}
+    #addEventForm input {
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
 
-.calendar-header h1 {
-  font-size: 1.6rem;
-  color: var(--green-deep);
-  margin: 0;
-}
+    @media (max-width: 600px) {
+      header {
+        padding: 12px 16px;
+      }
 
-.calendar-buttons {
-  display: flex;
-  gap: 8px;
-}
+      header h1 {
+        font-size: 1.6rem;
+      }
 
-button {
-  background-color: var(--green-deep);
-  color: white;
-  border: none;
-  padding: 8px 14px;
-  border-radius: 8px;
-  cursor: pointer;
-  font-family: 'Inter', sans-serif;
-  font-weight: 600;
-}
+      .logo {
+        max-width: 120px;
+      }
 
-button:hover {
-  background-color: var(--lime);
-}
+      .menu-btn {
+        width: 50px;
+        height: 50px;
+        font-size: 1.6rem;
+      }
 
-.day-grid {
-  display: grid;
-  grid-template-columns: repeat(7, 1fr);
-  gap: 6px;
-}
+      .calendar-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+      }
 
-.day-grid div {
-  min-height: 80px;
-  text-align: center;
-  padding: 12px 5px;
-  background-color: #f4f6f5;
-  border-radius: 8px;
-  font-size: 14px;
-}
+      .calendar-header h1 {
+        margin: 0;
+      }
 
-.day-grid .weekday {
-  min-height: auto;
-  padding: 8px 5px;
-  background-color: transparent;
-  font-weight: 700;
-  color: var(--green-deep);
-}
+      .day-grid {
+        gap: 3px;
+      }
 
-.day-grid .today {
-  background-color: var(--lime);
-  font-weight: bold;
-  color: white;
-}
-
-.event {
-  display: block;
-  font-size: 10px;
-  color: var(--green-deep);
-  background: white;
-  border-radius: 5px;
-  padding: 3px;
-  margin-top: 6px;
-}
-
-.today .event {
-  color: var(--green-deep);
-}
-
-.add-event-title {
-  font-size: 1.1rem;
-  color: var(--ink-soft);
-  margin-top: 0;
-}
-
-#addEventForm {
-  display: flex;
-  gap: 12px;
-  flex-wrap: wrap;
-  align-items: flex-end;
-}
-
-.form-group {
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-}
-
-.form-group label {
-  font-size: 13px;
-  font-weight: 600;
-}
-
-.form-group input {
-  padding: 8px;
-  border: 1px solid #dce3dd;
-  border-radius: 7px;
-  font-family: 'Inter', sans-serif;
-}
-
-.event-name {
-  flex: 1;
-  min-width: 180px;
-}
-
-.event-name input {
-  width: 100%;
-}
-
-@media (max-width: 1000px) {
-  .app {
-    grid-template-columns: 1fr;
-  }
-
-  .sidebar {
-    border-right: none;
-    border-bottom: 1px solid #eef1ec;
-  }
-}
-
-@media (max-width: 600px) {
-  .topbar {
-    padding: 14px 16px;
-  }
-
-  .topbar a {
-    margin-left: 10px;
-    font-size: 12px;
-  }
-
-  .main {
-    padding: 24px 18px 40px;
-  }
-
-  .calendar-header {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 12px;
-  }
-
-  .day-grid {
-    gap: 3px;
-  }
-
-  .day-grid div {
-    min-height: 60px;
-    font-size: 12px;
-    padding: 8px 3px;
-  }
-
-  .event {
-    font-size: 8px;
-  }
-}
-</style>
+      .day-grid div {
+        padding: 8px 2px;
+        font-size: 12px;
+      }
+    }
+  </style>
 </head>
 
 <body>
 
-<div class="topbar">
-  <strong>Sentan Navi</strong>
+  <header>
+    <img
+      class="logo"
+      src="https://www.kuas.ac.jp/wp-content/themes/kuasuni-theme/build/images/kuasuni-logo-sm.png"
+      alt="KUAS Logo">
 
-  <div>
-    <a href="#">Home</a>
-    <a href="#">Calendar</a>
+    <h1>KUAS ナビ</h1>
+
+    <button class="menu-btn">☰</button>
+  </header>
+
+  <div id="nav-sidebar" class="nav-sidebar">
+
+    <button class="close-btn" onclick="toggleMenu()">✕</button>
+
+    <h3>Academic</h3>
+    <a href="#">Schedule</a>
+    <a href="#">Attendance</a>
+    <a href="#">Class Profile</a>
+
+    <h3>Student Services</h3>
+    <a href="#">MyStep</a>
     <a href="#">Q&amp;A</a>
+    <a href="#">Notices</a>
+
+    <h3>Communication</h3>
+    <a href="#">Sentan Mail</a>
+    <a href="#">Announcements</a>
+
+    <h3>Settings</h3>
+    <a href="#">Preferences</a>
+
   </div>
-</div>
 
-<div class="app">
+  <div class="calendar-box">
+    <div class="calendar-header">
+      <h1 id="monthTitle">July 2026</h1>
 
-  <aside class="sidebar">
-
-    <a class="nav-item" href="#">
-      <img src="https://i.ibb.co/B52rXLsW/home.png" alt="">
-      Dashboard
-    </a>
-
-    <a class="nav-item" href="#">
-      <img src="https://i.ibb.co/FkW8VzgF/assignments.png" alt="">
-      Assignments
-    </a>
-
-    <a class="nav-item" href="#">
-      <img src="https://i.ibb.co/TqrkTj12/material.png" alt="">
-      Materials
-    </a>
-
-    <a class="nav-item" href="#">
-      <img src="https://i.ibb.co/1GfKKZMc/tests.png" alt="">
-      Tests
-    </a>
-
-    <a class="nav-item" href="#">
-      <img src="https://i.ibb.co/Fkx3ct6X/grades.png" alt="">
-      Grades
-    </a>
-
-    <a class="nav-item" href="#">
-      <img src="https://i.ibb.co/7xZK7PLt/Q-A.png" alt="">
-      Q&amp;A
-    </a>
-
-    <div class="schedule-card">
-
-      <h3>Registered Classes</h3>
-
-      <ul class="schedule-list">
-
-        <li>
-          <a class="schedule-link" href="introduction-to-design.html">
-            <span class="schedule-num">1</span>
-            <span><b>Introduction to Design</b></span>
-          </a>
-        </li>
-
-        <li>
-          <a class="schedule-link" href="calculus-linear-algebra.html">
-            <span class="schedule-num">2</span>
-            <span><b>Calculus and Linear...</b></span>
-          </a>
-        </li>
-
-        <li>
-          <a class="schedule-link" href="engineering-physics-2.html">
-            <span class="schedule-num">3</span>
-            <span><b>Engineering Physics 2</b></span>
-          </a>
-        </li>
-
-        <li>
-          <a class="schedule-link" href="elementary-japanese-3.html">
-            <span class="schedule-num">4</span>
-            <span><b>Elementary Japanese 3</b></span>
-          </a>
-        </li>
-
-        <li>
-          <a class="schedule-link" href="algorithmic-thinking-and-programming.html">
-            <span class="schedule-num">5</span>
-            <span><b>Algorithmic Thinking...</b></span>
-          </a>
-        </li>
-
-        <li>
-          <a class="schedule-link" href="sls-3.html">
-            <span class="schedule-num">6</span>
-            <span><b>SLS III</b></span>
-          </a>
-        </li>
-
-        <li>
-          <a class="schedule-link" href="fundamentals-of-mechanics.html">
-            <span class="schedule-num">7</span>
-            <span><b>Fundamentals of...</b></span>
-          </a>
-        </li>
-
-      </ul>
-
+      <div>
+        <button onclick="changeMonth(-1)">Previous</button>
+        <button onclick="changeMonth(1)">Next</button>
+      </div>
     </div>
 
-  </aside>
+    <div class="day-grid" id="dayGrid"></div>
+  </div>
 
-  <main class="main">
+  <div class="calendar-box" style="margin-top:15px; max-width:700px;">
 
-    <div class="calendar-box">
+    <h1 style="font-size:16px; color:#48604d; margin-top:0;">
+      Add an event to this month
+    </h1>
 
-      <div class="calendar-header">
+    <form id="addEventForm" style="display:flex; gap:10px; flex-wrap:wrap; align-items:flex-end;">
 
-        <h1 id="monthTitle">July 2026</h1>
+      <div>
+        <label style="display:block; font-size:13px; margin-bottom:4px;">
+          Day of month
+        </label>
 
-        <div class="calendar-buttons">
-          <button onclick="changeMonth(-1)">Previous</button>
-          <button onclick="changeMonth(1)">Next</button>
-        </div>
+        <input
+          type="number"
+          id="eventDay"
+          min="1"
+          max="31"
+          required
+          style="width:80px; padding:6px;">
+      </div>
+
+      <div style="flex:1; min-width:150px;">
+
+        <label style="display:block; font-size:13px; margin-bottom:4px;">
+          Event name
+        </label>
+
+        <input
+          type="text"
+          id="eventLabel"
+          required
+          style="width:100%; padding:6px; box-sizing:border-box;">
 
       </div>
 
-      <div class="day-grid" id="dayGrid"></div>
+      <button type="submit">
+        Add event
+      </button>
 
-    </div>
+    </form>
 
-    <div class="calendar-box">
+  </div>
 
-      <h1 class="add-event-title">Add an event to this month</h1>
+  <script>
+    var currentMonth = 6;
+    var currentYear = 2026;
 
-      <form id="addEventForm">
+    var monthNames = [
+      "January",
+      "February",
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December"
+    ];
 
-        <div class="form-group">
+    var events = {
+      "6-24": ["Tuition due"],
+      "6-29": ["Scholarship deadline"],
+      "6-3": ["Intensive begins"]
+    };
 
-          <label for="eventDay">Day of month</label>
+    function drawCalendar() {
+      var grid = document.getElementById("dayGrid");
 
-          <input
-            type="number"
-            id="eventDay"
-            min="1"
-            max="31"
-            required>
+      grid.innerHTML = "";
 
-        </div>
+      document.getElementById("monthTitle").innerText =
+        monthNames[currentMonth] + " " + currentYear;
 
-        <div class="form-group event-name">
+      var weekdays = [
+        "Sun",
+        "Mon",
+        "Tue",
+        "Wed",
+        "Thu",
+        "Fri",
+        "Sat"
+      ];
 
-          <label for="eventLabel">Event name</label>
+      for (var i = 0; i < 7; i++) {
+        var label = document.createElement("div");
 
-          <input
-            type="text"
-            id="eventLabel"
-            required>
+        label.innerText = weekdays[i];
+        label.className = "weekday";
 
-        </div>
+        grid.appendChild(label);
+      }
 
-        <button type="submit">Add event</button>
+      var daysInMonth =
+        new Date(currentYear, currentMonth + 1, 0).getDate();
 
-      </form>
+      var startDay =
+        new Date(currentYear, currentMonth, 1).getDay();
 
-    </div>
+      for (var i = 0; i < startDay; i++) {
+        var blank = document.createElement("div");
+        grid.appendChild(blank);
+      }
 
-  </main>
+      for (var day = 1; day <= daysInMonth; day++) {
 
-</div>
+        var dayBox = document.createElement("div");
 
-<script>
-var currentMonth = 6;
-var currentYear = 2026;
+        dayBox.innerText = day;
 
-var monthNames = [
-  "January",
-  "February",
-  "March",
-  "April",
-  "May",
-  "June",
-  "July",
-  "August",
-  "September",
-  "October",
-  "November",
-  "December"
-];
+        if (
+          currentMonth === 6 &&
+          currentYear === 2026 &&
+          day === 24
+        ) {
+          dayBox.className = "today";
+        }
 
-var events = {
-  "6-24": ["Tuition due"],
-  "6-29": ["Scholarship deadline"],
-  "6-3": ["Intensive begins"]
-};
+        var key = currentMonth + "-" + day;
 
-function drawCalendar() {
+        if (events[key]) {
 
-  var grid = document.getElementById("dayGrid");
+          for (var e = 0; e < events[key].length; e++) {
 
-  grid.innerHTML = "";
+            var eventText = document.createElement("span");
 
-  document.getElementById("monthTitle").innerText =
-    monthNames[currentMonth] + " " + currentYear;
+            eventText.className = "event";
+            eventText.innerText = events[key][e];
 
-  var weekdays = [
-    "Sun",
-    "Mon",
-    "Tue",
-    "Wed",
-    "Thu",
-    "Fri",
-    "Sat"
-  ];
+            dayBox.appendChild(eventText);
+          }
+        }
 
-  for (var i = 0; i < 7; i++) {
-
-    var label = document.createElement("div");
-
-    label.innerText = weekdays[i];
-
-    label.className = "weekday";
-
-    grid.appendChild(label);
-  }
-
-  var daysInMonth =
-    new Date(currentYear, currentMonth + 1, 0).getDate();
-
-  var startDay =
-    new Date(currentYear, currentMonth, 1).getDay();
-
-  for (var i = 0; i < startDay; i++) {
-
-    var blank = document.createElement("div");
-
-    grid.appendChild(blank);
-  }
-
-  for (var day = 1; day <= daysInMonth; day++) {
-
-    var dayBox = document.createElement("div");
-
-    dayBox.innerText = day;
-
-    if (
-      currentMonth === 6 &&
-      currentYear === 2026 &&
-      day === 24
-    ) {
-      dayBox.className = "today";
-    }
-
-    var key = currentMonth + "-" + day;
-
-    if (events[key]) {
-
-      for (var e = 0; e < events[key].length; e++) {
-
-        var eventText = document.createElement("span");
-
-        eventText.className = "event";
-
-        eventText.innerText = events[key][e];
-
-        dayBox.appendChild(eventText);
+        grid.appendChild(dayBox);
       }
     }
 
-    grid.appendChild(dayBox);
-  }
-}
+    function changeMonth(direction) {
 
-function changeMonth(direction) {
+      currentMonth = currentMonth + direction;
 
-  currentMonth = currentMonth + direction;
+      if (currentMonth > 11) {
+        currentMonth = 0;
+        currentYear++;
+      } else if (currentMonth < 0) {
+        currentMonth = 11;
+        currentYear--;
+      }
 
-  if (currentMonth > 11) {
-
-    currentMonth = 0;
-    currentYear++;
-
-  } else if (currentMonth < 0) {
-
-    currentMonth = 11;
-    currentYear--;
-  }
-
-  drawCalendar();
-}
-
-document
-  .getElementById("addEventForm")
-  .addEventListener("submit", function(event) {
-
-    event.preventDefault();
-
-    var day =
-      document.getElementById("eventDay").value;
-
-    var label =
-      document.getElementById("eventLabel").value;
-
-    var key =
-      currentMonth + "-" + day;
-
-    if (!events[key]) {
-      events[key] = [];
+      drawCalendar();
     }
 
-    events[key].push(label);
+    document
+      .getElementById("addEventForm")
+      .addEventListener("submit", function(event) {
+
+        event.preventDefault();
+
+        var day =
+          document.getElementById("eventDay").value;
+
+        var label =
+          document.getElementById("eventLabel").value;
+
+        var key = currentMonth + "-" + day;
+
+        if (!events[key]) {
+          events[key] = [];
+        }
+
+        events[key].push(label);
+
+        drawCalendar();
+
+        document
+          .getElementById("addEventForm")
+          .reset();
+      });
+
+    const menuBtn = document.querySelector(".menu-btn");
+    const navSidebar = document.getElementById("nav-sidebar");
+
+    window.toggleMenu = function() {
+      navSidebar.classList.toggle("active");
+    };
+
+    menuBtn.addEventListener("click", toggleMenu);
 
     drawCalendar();
-
-    document.getElementById("addEventForm").reset();
-  });
-
-drawCalendar();
-</script>
+  </script>
 
 </body>
 
