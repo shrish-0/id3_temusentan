@@ -1,483 +1,129 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>KUAS Navi</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KUAS ナビ</title>
 
-<style>
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
+    <style>
+        .side-menu {
+            display: none;
+        }
 
-body {
-    font-family: Arial, sans-serif;
-    background: #f5f6f7;
-    padding: 20px;
-    color: #222;
-}
-
-.container {
-    max-width: 1400px;
-    margin: auto;
-    display: grid;
-    grid-template-columns: 2fr 1fr;
-    gap: 40px;
-}
-
-header {
-    grid-column: 1 / -1;
-    background: white;
-    border-bottom: 4px solid #0e995a;
-    padding: 15px 20px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-}
-
-.logo {
-    width: 150px;
-    height: auto;
-}
-
-.logo-link {
-    display: block;
-}
-
-header h1 {
-    color: #0e995a;
-    font-size: 2.5rem;
-    margin-left: auto;
-    margin-right: 30px;
-}
-
-.menu-btn {
-    width: 60px;
-    height: 60px;
-    font-size: 2rem;
-    border: 3px solid #0e995a;
-    border-radius: 10px;
-    background: white;
-    color: #0e995a;
-    cursor: pointer;
-    transition: 0.2s;
-}
-
-.menu-btn:hover {
-    background: #0e995a;
-    color: white;
-    transform: scale(1.05);
-}
-
-.schedule {
-    background: white;
-    padding: 25px;
-    border-radius: 12px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.08);
-}
-
-.schedule h2 {
-    color: #1e3a8a;
-    margin-bottom: 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.arrows {
-    display: flex;
-    gap: 10px;
-}
-
-.arrow-btn {
-    border: none;
-    background: #1e3a8a;
-    color: white;
-    width: 35px;
-    height: 35px;
-    border-radius: 50%;
-    cursor: pointer;
-    transition: 0.2s;
-}
-
-.arrow-btn:hover {
-    transform: scale(1.1);
-    background: #0e995a;
-}
-
-table {
-    width: 100%;
-    border-collapse: collapse;
-}
-
-tr {
-    border-bottom: 1px solid #ddd;
-}
-
-tr:last-child {
-    border-bottom: none;
-}
-
-td {
-    padding: 14px 10px;
-    font-size: 1.05rem;
-}
-
-td:first-child {
-    width: 160px;
-    font-weight: bold;
-    color: #555;
-}
-
-.dashboard-grid {
-    margin-top: 30px;
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 18px;
-}
-
-.dashboard-item {
-    text-decoration: none;
-    color: #222;
-    background: white;
-    border: 2px solid #1e3a8a;
-    border-radius: 15px;
-    padding: 22px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    min-height: 120px;
-    cursor: pointer;
-    transition:
-        transform 0.2s,
-        box-shadow 0.2s,
-        background 0.2s,
-        color 0.2s;
-}
-
-.dashboard-item:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
-    background: #1e3a8a;
-    color: white;
-}
-
-.icon {
-    font-size: 2.2rem;
-    transition: transform 0.2s;
-}
-
-.dashboard-item:hover .icon {
-    transform: scale(1.15);
-}
-
-.dashboard-item span:last-child {
-    font-weight: bold;
-}
-
-.email-block {
-    background: white;
-    border: 3px solid #1e3a8a;
-    border-radius: 12px;
-    min-height: 500px;
-    display: flex;
-    flex-direction: column;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.08);
-}
-
-.email-header {
-    border-bottom: 3px solid #1e3a8a;
-    padding: 15px;
-    text-align: center;
-    font-weight: bold;
-    font-size: 1.2rem;
-    color: #1e3a8a;
-}
-
-.email-content {
-    padding: 15px;
-}
-
-.email {
-    padding: 15px;
-    border-bottom: 1px solid #ddd;
-    cursor: pointer;
-    transition: 0.2s;
-}
-
-.email:hover {
-    background: #f0f5ff;
-}
-
-.email-title {
-    font-weight: bold;
-    margin-bottom: 5px;
-}
-
-.email-preview {
-    font-size: 0.9rem;
-    color: #666;
-}
-
-.menu-panel {
-    position: fixed;
-    top: 0;
-    right: -320px;
-    width: 320px;
-    height: 100vh;
-    background: white;
-    box-shadow: -5px 0 20px rgba(0,0,0,0.2);
-    padding: 30px;
-    z-index: 1000;
-    transition: right 0.3s ease;
-    overflow-y: auto;
-}
-
-.menu-panel.open {
-    right: 0;
-}
-
-.menu-panel h2 {
-    color: #0e995a;
-    margin-bottom: 25px;
-}
-
-.menu-panel a {
-    display: block;
-    width: 100%;
-    padding: 14px;
-    margin-bottom: 10px;
-    border-radius: 8px;
-    background: #f1f1f1;
-    color: #222;
-    text-decoration: none;
-    font-size: 1rem;
-    transition: 0.2s;
-}
-
-.menu-panel a:hover {
-    background: #0e995a;
-    color: white;
-}
-
-.menu-panel button {
-    width: 100%;
-    padding: 14px;
-    margin-bottom: 10px;
-    border: none;
-    border-radius: 8px;
-    background: #f1f1f1;
-    text-align: center;
-    cursor: pointer;
-    font-size: 1rem;
-}
-
-.menu-panel button:hover {
-    background: #0e995a;
-    color: white;
-}
-
-.close-menu {
-    background: #ddd !important;
-}
-
-.close-menu:hover {
-    background: #aaa !important;
-    color: white;
-}
-
-.overlay {
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.35);
-    opacity: 0;
-    visibility: hidden;
-    transition: 0.3s;
-    z-index: 999;
-}
-
-.overlay.active {
-    opacity: 1;
-    visibility: visible;
-}
-
-@media (max-width: 900px) {
-    .container {
-        grid-template-columns: 1fr;
-    }
-
-    .dashboard-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
-
-    .email-block {
-        min-height: 350px;
-    }
-}
-
-@media (max-width: 600px) {
-    body {
-        padding: 10px;
-    }
-
-    header h1 {
-        font-size: 1.7rem;
-        margin-right: 10px;
-    }
-
-    .logo {
-        width: 110px;
-    }
-
-    .dashboard-grid {
-        grid-template-columns: 1fr;
-    }
-
-    td {
-        font-size: 0.9rem;
-    }
-
-    td:first-child {
-        width: 110px;
-    }
-}
-</style>
+        .side-menu.open {
+            display: block;
+        }
+    </style>
 </head>
 
 <body>
 
-<div class="container">
+<h1>KUAS ナビ</h1>
 
-<header>
-    <a href="index.html" class="logo-link">
-        <img
-            class="logo"
-            src="https://www.kuas.ac.jp/wp-content/themes/kuasuni-theme/build/images/kuasuni-logo-sm.png"
-            alt="KUAS Logo">
+<button class="menu-btn" id="menuButton" type="button">☰</button>
+
+<h2>
+    <span id="dayTitle">Monday Schedule</span>
+
+    <span class="arrows">
+        <button class="arrow-btn" id="previousDay" type="button">◀</button>
+        <button class="arrow-btn" id="nextDay" type="button">▶</button>
+    </span>
+</h2>
+
+<table id="scheduleTable">
+    <tr>
+        <td>9:00–10:30</td>
+        <td>Introduction to Design</td>
+    </tr>
+
+    <tr>
+        <td>10:40–12:10</td>
+        <td>ID cont.</td>
+    </tr>
+
+    <tr>
+        <td>13:00–14:30</td>
+        <td>Calculus & Linear Algebra 2</td>
+    </tr>
+
+    <tr>
+        <td>14:40–16:10</td>
+        <td>Engineering Physics 2</td>
+    </tr>
+
+    <tr>
+        <td>16:20–17:50</td>
+        <td>Elementary Japanese 3</td>
+    </tr>
+</table>
+
+<div class="dashboard-grid">
+
+    <a href="#" class="dashboard-item">
+        <span class="icon">📢</span>
+        <span>Notice</span>
     </a>
 
-    <h1>KUAS ナビ</h1>
+    <a href="ID3-Calendar.html" class="dashboard-item">
+        <span class="icon">📅</span>
+        <span>Schedule</span>
+    </a>
 
-    <button class="menu-btn" id="menuButton" type="button">☰</button>
-</header>
+    <a href="ID3-QnA.html" class="dashboard-item">
+        <span class="icon">❓</span>
+        <span>Q&A</span>
+    </a>
 
-<section class="schedule">
+    <a href="registration.html" class="dashboard-item">
+        <span class="icon">📝</span>
+        <span>Registration</span>
+    </a>
 
-    <h2>
-        <span id="dayTitle">Monday Schedule</span>
+    <a href="calculus-linear-algebra.html" class="dashboard-item">
+        <span class="icon">👨‍🏫</span>
+        <span>Class Profile</span>
+    </a>
 
-        <span class="arrows">
-            <button class="arrow-btn" id="previousDay" type="button">◀</button>
-            <button class="arrow-btn" id="nextDay" type="button">▶</button>
-        </span>
-    </h2>
-
-    <table id="scheduleTable">
-        <tr>
-            <td>9:00–10:30</td>
-            <td>Introduction to Design</td>
-        </tr>
-
-        <tr>
-            <td>10:40–12:10</td>
-            <td>ID cont.</td>
-        </tr>
-
-        <tr>
-            <td>13:00–14:30</td>
-            <td>Calculus & Linear Algebra 2</td>
-        </tr>
-
-        <tr>
-            <td>14:40–16:10</td>
-            <td>Engineering Physics 2</td>
-        </tr>
-
-        <tr>
-            <td>16:20–17:50</td>
-            <td>Elementary Japanese 3</td>
-        </tr>
-    </table>
-
-    <div class="dashboard-grid">
-
-        <a href="#" class="dashboard-item">
-            <span class="icon">📢</span>
-            <span>Notice</span>
-        </a>
-
-        <a href="ID3-Calendar.html" class="dashboard-item">
-            <span class="icon">📅</span>
-            <span>Schedule</span>
-        </a>
-
-        <a href="ID3-QnA.html" class="dashboard-item">
-            <span class="icon">❓</span>
-            <span>Q&A</span>
-        </a>
-
-        <a href="registration.html" class="dashboard-item">
-            <span class="icon">📝</span>
-            <span>Registration</span>
-        </a>
-
-        <a href="calculus-linear-algebra.html" class="dashboard-item">
-            <span class="icon">👨‍🏫</span>
-            <span>Class Profile</span>
-        </a>
-
-        <a href="#" class="dashboard-item">
-            <span class="icon">✅</span>
-            <span>Attendance</span>
-        </a>
-
-    </div>
-
-</section>
-
-<aside class="email-block">
-
-    <div class="email-header">
-        Sentan Email Block
-    </div>
-
-    <div class="email-content">
-
-        <div class="email">
-            <div class="email-title">📢 Important Notice</div>
-            <div class="email-preview">
-                Please check the latest university announcements.
-            </div>
-        </div>
-
-        <div class="email">
-            <div class="email-title">📚 Engineering Physics 2</div>
-            <div class="email-preview">
-                New material has been uploaded.
-            </div>
-        </div>
-
-        <div class="email">
-            <div class="email-title">📅 Schedule Update</div>
-            <div class="email-preview">
-                Your class schedule has been updated.
-            </div>
-        </div>
-
-    </div>
-
-</aside>
+    <a href="#" class="dashboard-item">
+        <span class="icon">✅</span>
+        <span>Attendance</span>
+    </a>
 
 </div>
 
-<div class="overlay" id="overlay"></div>
+<div class="email-header">
+    Sentan Email Block
+</div>
 
-<div class="menu-panel" id="menuPanel">
+<div class="email-content">
+
+    <div class="email">
+        <div class="email-title">📢 Important Notice</div>
+        <div class="email-preview">
+            Please check the latest university announcements.
+        </div>
+    </div>
+
+    <div class="email">
+        <div class="email-title">📚 Engineering Physics 2</div>
+        <div class="email-preview">
+            New material has been uploaded.
+        </div>
+    </div>
+
+    <div class="email">
+        <div class="email-title">📅 Schedule Update</div>
+        <div class="email-preview">
+            Your class schedule has been updated.
+        </div>
+    </div>
+
+</div>
+
+<div class="side-menu" id="sideMenu">
 
     <h2>KUAS Navi</h2>
 
@@ -489,145 +135,26 @@ td:first-child {
     <a href="#">✅ Attendance</a>
 
     <button class="close-menu" id="closeMenu" type="button">
-        Close
+        ✕
     </button>
 
 </div>
 
 <script>
-const menuButton = document.getElementById("menuButton");
-const menuPanel = document.getElementById("menuPanel");
-const overlay = document.getElementById("overlay");
-const closeMenu = document.getElementById("closeMenu");
+    const menuButton = document.getElementById("menuButton");
+    const closeMenu = document.getElementById("closeMenu");
+    const sideMenu = document.getElementById("sideMenu");
 
-menuButton.addEventListener("click", function() {
-    menuPanel.classList.add("open");
-    overlay.classList.add("active");
-});
-
-closeMenu.addEventListener("click", function() {
-    menuPanel.classList.remove("open");
-    overlay.classList.remove("active");
-});
-
-overlay.addEventListener("click", function() {
-    menuPanel.classList.remove("open");
-    overlay.classList.remove("active");
-});
-
-const days = [
-    {
-        name: "Monday",
-        classes: [
-            ["9:00–10:30", "Introduction to Design"],
-            ["10:40–12:10", "ID cont."],
-            ["13:00–14:30", "Calculus & Linear Algebra 2"],
-            ["14:40–16:10", "Engineering Physics 2"],
-            ["16:20–17:50", "Elementary Japanese 3"]
-        ]
-    },
-
-    {
-        name: "Tuesday",
-        classes: [
-            ["9:00–10:30", "Engineering Mathematics"],
-            ["10:40–12:10", "Programming"],
-            ["13:00–14:30", "Physics"],
-            ["14:40–16:10", "Free"],
-            ["16:20–17:50", "Japanese"]
-        ]
-    },
-
-    {
-        name: "Wednesday",
-        classes: [
-            ["9:00–10:30", "Design"],
-            ["10:40–12:10", "Programming"],
-            ["13:00–14:30", "Calculus"],
-            ["14:40–16:10", "Engineering Physics"],
-            ["16:20–17:50", "Free"]
-        ]
-    },
-
-    {
-        name: "Thursday",
-        classes: [
-            ["9:00–10:30", "Free"],
-            ["10:40–12:10", "Mathematics"],
-            ["13:00–14:30", "Programming"],
-            ["14:40–16:10", "Physics"],
-            ["16:20–17:50", "Japanese"]
-        ]
-    },
-
-    {
-        name: "Friday",
-        classes: [
-            ["9:00–10:30", "Engineering Design"],
-            ["10:40–12:10", "Calculus"],
-            ["13:00–14:30", "Physics"],
-            ["14:40–16:10", "Free"],
-            ["16:20–17:50", "Free"]
-        ]
-    }
-];
-
-let currentDay = 0;
-
-const dayTitle = document.getElementById("dayTitle");
-const scheduleTable = document.getElementById("scheduleTable");
-
-function updateSchedule() {
-    const day = days[currentDay];
-
-    dayTitle.textContent = day.name + " Schedule";
-
-    scheduleTable.innerHTML = "";
-
-    day.classes.forEach(function(classInfo) {
-        const row = document.createElement("tr");
-
-        const time = document.createElement("td");
-        const subject = document.createElement("td");
-
-        time.textContent = classInfo[0];
-        subject.textContent = classInfo[1];
-
-        row.appendChild(time);
-        row.appendChild(subject);
-
-        scheduleTable.appendChild(row);
+    menuButton.addEventListener("click", function () {
+        sideMenu.classList.add("open");
     });
-}
 
-document.getElementById("previousDay").addEventListener("click", function() {
-    currentDay--;
-
-    if (currentDay < 0) {
-        currentDay = days.length - 1;
-    }
-
-    updateSchedule();
-});
-
-document.getElementById("nextDay").addEventListener("click", function() {
-    currentDay++;
-
-    if (currentDay >= days.length) {
-        currentDay = 0;
-    }
-
-    updateSchedule();
-});
-
-document.querySelectorAll(".email").forEach(function(email) {
-    email.addEventListener("click", function() {
-        const title = email.querySelector(".email-title").textContent;
-
-        alert("Opening: " + title);
+    closeMenu.addEventListener("click", function () {
+        sideMenu.classList.remove("open");
     });
-});
 </script>
 
 </body>
+
 </html>
+```
