@@ -61,6 +61,8 @@
       font-size: 2rem;
       cursor: pointer;
       transition: 0.2s ease;
+      margin: 0;
+      padding: 0;
     }
 
     .menu-btn:hover {
@@ -115,6 +117,7 @@
       cursor: pointer;
       color: var(--primary-green);
       margin-bottom: 10px;
+      padding: 5px;
     }
 
     .calendar-box {
@@ -135,6 +138,7 @@
     .calendar-header h1 {
       font-size: 20px;
       color: var(--primary-green);
+      margin: 0;
     }
 
     .calendar-header button,
@@ -191,12 +195,51 @@
       color: white;
     }
 
-    #addEventForm input {
+    .event-box {
+      margin-top: 15px;
+      max-width: 700px;
+    }
+
+    .event-title {
+      font-size: 16px;
+      color: #48604d;
+      margin-top: 0;
+    }
+
+    #addEventForm {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: flex-end;
+    }
+
+    #addEventForm label {
+      display: block;
+      font-size: 13px;
+      margin-bottom: 4px;
+    }
+
+    #eventDay {
+      width: 80px;
+      padding: 6px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+
+    .event-name {
+      flex: 1;
+      min-width: 150px;
+    }
+
+    #eventLabel {
+      width: 100%;
+      padding: 6px;
       border: 1px solid #ccc;
       border-radius: 4px;
     }
 
     @media (max-width: 600px) {
+
       header {
         padding: 12px 16px;
       }
@@ -240,248 +283,256 @@
 <body>
 
 <header>
+
   <a href="homepage.html">
     <img
-    class="logo"
-    src="https://www.kuas.ac.jp/wp-content/themes/kuasuni-theme/build/images/kuasuni-logo-sm.png"
-    alt="KUAS Logo">
-  </a>>
+      class="logo"
+      src="https://www.kuas.ac.jp/wp-content/themes/kuasuni-theme/build/images/kuasuni-logo-sm.png"
+      alt="KUAS Logo">
+  </a>
 
   <h1>KUAS ナビ</h1>
 
-  <button class="menu-btn">☰</button>
+  <button class="menu-btn" type="button">☰</button>
+
 </header>
 
 <div id="nav-sidebar" class="nav-sidebar">
 
-    <button class="close-btn" onclick="toggleMenu()">✕</button>
+  <button class="close-btn" type="button" onclick="toggleMenu()">✕</button>
 
-    <h3>Academic</h3>
-    <a href="ID3-Calendar.html">Schedule</a>
-    <a href="#">Attendance</a>
-    <a href="calculus-linear-algebra.html">Class Profile</a>
+  <h3>Academic</h3>
+  <a href="ID3-Calendar.html">Schedule</a>
+  <a href="#">Attendance</a>
+  <a href="calculus-linear-algebra.html">Class Profile</a>
 
-    <h3>Student Services</h3>
-    <a href="registration.html">Registration</a>
-    <a href="ID3-QnA.html">Q&amp;A</a>
-    <a href="#">Notices</a>
+  <h3>Student Services</h3>
+  <a href="registration.html">Registration</a>
+  <a href="ID3-QnA.html">Q&amp;A</a>
+  <a href="#">Notices</a>
 
-    <h3>Communication</h3>
-    <a href="#">Sentan Mail</a>
-    <a href="#">Announcements</a>
+  <h3>Communication</h3>
+  <a href="#">Sentan Mail</a>
+  <a href="#">Announcements</a>
 
-    <h3>Settings</h3>
-    <a href="#">Preferences</a>
-
+  <h3>Settings</h3>
+  <a href="#">Preferences</a>
 
 </div>
 
-  <div class="calendar-box">
-    <div class="calendar-header">
-      <h1 id="monthTitle">July 2026</h1>
+<div class="calendar-box">
 
-      <div>
-        <button onclick="changeMonth(-1)">Previous</button>
-        <button onclick="changeMonth(1)">Next</button>
-      </div>
+  <div class="calendar-header">
+
+    <h1 id="monthTitle">July 2026</h1>
+
+    <div>
+      <button type="button" onclick="changeMonth(-1)">Previous</button>
+      <button type="button" onclick="changeMonth(1)">Next</button>
     </div>
 
-    <div class="day-grid" id="dayGrid"></div>
   </div>
 
-  <div class="calendar-box" style="margin-top:15px; max-width:700px;">
+  <div class="day-grid" id="dayGrid"></div>
 
-    <h1 style="font-size:16px; color:#48604d; margin-top:0;">
-      Add an event to this month
-    </h1>
+</div>
 
-    <form id="addEventForm" style="display:flex; gap:10px; flex-wrap:wrap; align-items:flex-end;">
+<div class="calendar-box event-box">
 
-      <div>
-        <label style="display:block; font-size:13px; margin-bottom:4px;">
-          Day of month
-        </label>
+  <h1 class="event-title">
+    Add an event to this month
+  </h1>
 
-        <input
-          type="number"
-          id="eventDay"
-          min="1"
-          max="31"
-          required
-          style="width:80px; padding:6px;">
-      </div>
+  <form id="addEventForm">
 
-      <div style="flex:1; min-width:150px;">
+    <div>
+      <label for="eventDay">Day of month</label>
 
-        <label style="display:block; font-size:13px; margin-bottom:4px;">
-          Event name
-        </label>
+      <input
+        type="number"
+        id="eventDay"
+        min="1"
+        max="31"
+        required>
+    </div>
 
-        <input
-          type="text"
-          id="eventLabel"
-          required
-          style="width:100%; padding:6px; box-sizing:border-box;">
+    <div class="event-name">
 
-      </div>
+      <label for="eventLabel">Event name</label>
 
-      <button type="submit">
-        Add event
-      </button>
+      <input
+        type="text"
+        id="eventLabel"
+        required>
 
-    </form>
+    </div>
 
-  </div>
+    <button type="submit">
+      Add event
+    </button>
 
-  <script>
-    var currentMonth = 6;
-    var currentYear = 2026;
+  </form>
 
-    var monthNames = [
-      "January",
-      "February",
-      "March",
-      "April",
-      "May",
-      "June",
-      "July",
-      "August",
-      "September",
-      "October",
-      "November",
-      "December"
+</div>
+
+<script>
+
+  var currentMonth = 6;
+  var currentYear = 2026;
+
+  var monthNames = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December"
+  ];
+
+  var events = {
+    "6-24": ["Tuition due"],
+    "6-29": ["Scholarship deadline"],
+    "6-3": ["Intensive begins"]
+  };
+
+  function drawCalendar() {
+
+    var grid = document.getElementById("dayGrid");
+
+    grid.innerHTML = "";
+
+    document.getElementById("monthTitle").innerText =
+      monthNames[currentMonth] + " " + currentYear;
+
+    var weekdays = [
+      "Sun",
+      "Mon",
+      "Tue",
+      "Wed",
+      "Thu",
+      "Fri",
+      "Sat"
     ];
 
-    var events = {
-      "6-24": ["Tuition due"],
-      "6-29": ["Scholarship deadline"],
-      "6-3": ["Intensive begins"]
-    };
+    for (var i = 0; i < 7; i++) {
 
-    function drawCalendar() {
-      var grid = document.getElementById("dayGrid");
+      var label = document.createElement("div");
 
-      grid.innerHTML = "";
+      label.innerText = weekdays[i];
+      label.className = "weekday";
 
-      document.getElementById("monthTitle").innerText =
-        monthNames[currentMonth] + " " + currentYear;
-
-      var weekdays = [
-        "Sun",
-        "Mon",
-        "Tue",
-        "Wed",
-        "Thu",
-        "Fri",
-        "Sat"
-      ];
-
-      for (var i = 0; i < 7; i++) {
-        var label = document.createElement("div");
-
-        label.innerText = weekdays[i];
-        label.className = "weekday";
-
-        grid.appendChild(label);
-      }
-
-      var daysInMonth =
-        new Date(currentYear, currentMonth + 1, 0).getDate();
-
-      var startDay =
-        new Date(currentYear, currentMonth, 1).getDay();
-
-      for (var i = 0; i < startDay; i++) {
-        var blank = document.createElement("div");
-        grid.appendChild(blank);
-      }
-
-      for (var day = 1; day <= daysInMonth; day++) {
-
-        var dayBox = document.createElement("div");
-
-        dayBox.innerText = day;
-
-        if (
-          currentMonth === 6 &&
-          currentYear === 2026 &&
-          day === 24
-        ) {
-          dayBox.className = "today";
-        }
-
-        var key = currentMonth + "-" + day;
-
-        if (events[key]) {
-
-          for (var e = 0; e < events[key].length; e++) {
-
-            var eventText = document.createElement("span");
-
-            eventText.className = "event";
-            eventText.innerText = events[key][e];
-
-            dayBox.appendChild(eventText);
-          }
-        }
-
-        grid.appendChild(dayBox);
-      }
+      grid.appendChild(label);
     }
 
-    function changeMonth(direction) {
+    var daysInMonth =
+      new Date(currentYear, currentMonth + 1, 0).getDate();
 
-      currentMonth = currentMonth + direction;
+    var startDay =
+      new Date(currentYear, currentMonth, 1).getDay();
 
-      if (currentMonth > 11) {
-        currentMonth = 0;
-        currentYear++;
-      } else if (currentMonth < 0) {
-        currentMonth = 11;
-        currentYear--;
-      }
+    for (var i = 0; i < startDay; i++) {
 
-      drawCalendar();
+      var blank = document.createElement("div");
+
+      grid.appendChild(blank);
     }
 
-    document
-      .getElementById("addEventForm")
-      .addEventListener("submit", function(event) {
+    for (var day = 1; day <= daysInMonth; day++) {
 
-        event.preventDefault();
+      var dayBox = document.createElement("div");
 
-        var day =
-          document.getElementById("eventDay").value;
+      dayBox.innerText = day;
 
-        var label =
-          document.getElementById("eventLabel").value;
+      if (
+        currentMonth === 6 &&
+        currentYear === 2026 &&
+        day === 24
+      ) {
+        dayBox.className = "today";
+      }
 
-        var key = currentMonth + "-" + day;
+      var key = currentMonth + "-" + day;
 
-        if (!events[key]) {
-          events[key] = [];
+      if (events[key]) {
+
+        for (var e = 0; e < events[key].length; e++) {
+
+          var eventText = document.createElement("span");
+
+          eventText.className = "event";
+          eventText.innerText = events[key][e];
+
+          dayBox.appendChild(eventText);
         }
+      }
 
-        events[key].push(label);
+      grid.appendChild(dayBox);
+    }
+  }
 
-        drawCalendar();
+  function changeMonth(direction) {
 
-        document
-          .getElementById("addEventForm")
-          .reset();
-      });
+    currentMonth = currentMonth + direction;
 
-    const menuBtn = document.querySelector(".menu-btn");
-    const navSidebar = document.getElementById("nav-sidebar");
+    if (currentMonth > 11) {
 
-    window.toggleMenu = function() {
-      navSidebar.classList.toggle("active");
-    };
+      currentMonth = 0;
+      currentYear++;
 
-    menuBtn.addEventListener("click", toggleMenu);
+    } else if (currentMonth < 0) {
+
+      currentMonth = 11;
+      currentYear--;
+    }
 
     drawCalendar();
-  </script>
+  }
+
+  document
+    .getElementById("addEventForm")
+    .addEventListener("submit", function(event) {
+
+      event.preventDefault();
+
+      var day =
+        document.getElementById("eventDay").value;
+
+      var label =
+        document.getElementById("eventLabel").value;
+
+      var key = currentMonth + "-" + day;
+
+      if (!events[key]) {
+        events[key] = [];
+      }
+
+      events[key].push(label);
+
+      drawCalendar();
+
+      document
+        .getElementById("addEventForm")
+        .reset();
+    });
+
+  const menuBtn = document.querySelector(".menu-btn");
+  const navSidebar = document.getElementById("nav-sidebar");
+
+  window.toggleMenu = function() {
+    navSidebar.classList.toggle("active");
+  };
+
+  menuBtn.addEventListener("click", toggleMenu);
+
+  drawCalendar();
+
+</script>
 
 </body>
 
