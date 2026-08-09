@@ -23,7 +23,9 @@
     --text-dark:#222;
   }
 
-  *{box-sizing:border-box;}
+  *{
+    box-sizing:border-box;
+  }
 
   body{
     margin:0;
@@ -32,8 +34,13 @@
     color:var(--ink);
   }
 
-  h1,h3{font-family:'Poppins',sans-serif;}
-  img{display:block;}
+  h1,h3{
+    font-family:'Poppins',sans-serif;
+  }
+
+  img{
+    display:block;
+  }
 
   header{
     display:flex;
@@ -147,8 +154,14 @@
     text-decoration:none;
   }
 
-  .nav-item:hover{background:#eef7ee;}
-  .nav-item img{width:22px;height:22px;}
+  .nav-item:hover{
+    background:#eef7ee;
+  }
+
+  .nav-item img{
+    width:22px;
+    height:22px;
+  }
 
   .schedule-card{
     margin-top:48px;
@@ -189,8 +202,13 @@
     color:inherit;
   }
 
-  .schedule-link:hover{background:#eef7ee;}
-  .schedule-link.active{background:#eef7ee;}
+  .schedule-link:hover{
+    background:#eef7ee;
+  }
+
+  .schedule-link.active{
+    background:#eef7ee;
+  }
 
   .view-link{
     color:var(--link-blue);
@@ -199,7 +217,9 @@
     text-decoration:none;
   }
 
-  .view-link:hover{text-decoration:underline;}
+  .view-link:hover{
+    text-decoration:underline;
+  }
 
   .main{
     padding:32px 40px 48px;
@@ -407,39 +427,38 @@
 <body>
 
 <header>
-    <a href="homepage.html">
-      <img
+  <a href="homepage.html">
+    <img
       class="logo"
       src="https://www.kuas.ac.jp/wp-content/themes/kuasuni-theme/build/images/kuasuni-logo-sm.png"
       alt="KUAS Logo">
-    </a>>
+  </a>
 
-    <h1>KUAS ナビ</h1>
+  <h1>KUAS ナビ</h1>
 
-    <button class="menu-btn">☰</button>
+  <button class="menu-btn">☰</button>
 </header>
 
 <div id="nav-sidebar" class="nav-sidebar">
 
-    <button class="close-btn" onclick="toggleMenu()">✕</button>
+  <button class="close-btn" onclick="toggleMenu()">✕</button>
 
-    <h3>Academic</h3>
-    <a href="ID3-Calendar.html">Schedule</a>
-    <a href="#">Attendance</a>
-    <a href="calculus-linear-algebra.html">Class Profile</a>
+  <h3>Academic</h3>
+  <a href="ID3-Calendar.html">Schedule</a>
+  <a href="#">Attendance</a>
+  <a href="calculus-linear-algebra.html">Class Profile</a>
 
-    <h3>Student Services</h3>
-    <a href="registration.html">Registration</a>
-    <a href="ID3-QnA.html">Q&amp;A</a>
-    <a href="#">Notices</a>
+  <h3>Student Services</h3>
+  <a href="registration.html">Registration</a>
+  <a href="ID3-QnA.html">Q&amp;A</a>
+  <a href="#">Notices</a>
 
-    <h3>Communication</h3>
-    <a href="#">Sentan Mail</a>
-    <a href="#">Announcements</a>
+  <h3>Communication</h3>
+  <a href="#">Sentan Mail</a>
+  <a href="#">Announcements</a>
 
-    <h3>Settings</h3>
-    <a href="#">Preferences</a>
-
+  <h3>Settings</h3>
+  <a href="#">Preferences</a>
 
 </div>
 
@@ -472,7 +491,7 @@
       Grades
     </a>
 
-    <a class="nav-item" href="#">
+    <a class="nav-item" href="ID3-QnA.html">
       <img src="https://i.ibb.co/7xZK7PLt/Q-A.png" alt="">
       Q&amp;A
     </a>
@@ -551,7 +570,7 @@
       </div>
 
       <div>
-        Instructors: HORII Shigeru , IMAI Tadayuki
+        Instructors: HORII Shigeru, IMAI Tadayuki
       </div>
 
       <img
@@ -637,7 +656,7 @@
           Inquiries
         </div>
 
-        <a class="view-link" href="#">
+        <a class="view-link" href="ID3-QnA.html">
           View Details &gt;
         </a>
       </div>
