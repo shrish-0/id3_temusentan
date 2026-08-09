@@ -1,0 +1,68 @@
+/* Logo */
+.logo {
+    width: auto;
+    height: auto;
+}
+
+/* Menu Button */
+.menu-btn {
+    width: 70px;
+    height: 70px;
+
+    border: none;
+    border-radius: 12px;
+
+    background: var(--primary-green);
+    color: white;
+
+    font-size: 2rem;
+    cursor: pointer;
+
+    transition: 0.2s ease;
+}
+
+.menu-btn:hover {
+    background: var(--secondary-green);
+}
+const menuBtn = document.querySelector(".menu-btn");
+const sidebar = document.getElementById("sidebar");
+
+window.toggleMenu = function () {
+    document.getElementById("sidebar")
+            .classList.toggle("active");
+};
+
+menuBtn.addEventListener("click", toggleMenu);
+<header>
+        <img
+            class="logo"
+            src="https://www.kuas.ac.jp/wp-content/themes/kuasuni-theme/build/images/kuasuni-logo-sm.png"
+            alt="KUAS Logo">
+        <h1>KUAS ナビ</h1>
+
+        <button class="menu-btn">☰</button>
+        </button>
+    </header>
+
+    <div id="sidebar" class="sidebar">
+    
+        <button class="close-btn" onclick="toggleMenu()">✕</button>
+    
+        <h3>Academic</h3>
+        <a href="#">Schedule</a>
+        <a href="#">Attendance</a>
+        <a href="#">Class Profile</a>
+    
+        <h3>Student Services</h3>
+        <a href="#">MyStep</a>
+        <a href="#">Q&A</a>
+        <a href="#">Notices</a>
+    
+        <h3>Communication</h3>
+        <a href="#">Sentan Mail</a>
+        <a href="#">Announcements</a>
+    
+        <h3>Settings</h3>
+        <a href="#">Preferences</a>
+    
+    </div>
