@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 
@@ -20,6 +21,11 @@
       --bg: #fbfcfa;
       --card-bg: #ffffff;
       --radius-lg: 22px;
+
+      --primary-green: #0e955a;
+      --secondary-green: #90c41f;
+      --white: #ffffff;
+      --text-dark: #222;
     }
 
     * {
@@ -33,7 +39,7 @@
       color: var(--ink);
     }
 
-    h1,h3 {
+    h1, h3 {
       font-family: 'Poppins', sans-serif;
     }
 
@@ -41,32 +47,100 @@
       display: block;
     }
 
-    .topbar {
-      background-color: var(--green-deep);
-      color: white;
-      padding: 15px 25px;
+    header {
       display: flex;
-      justify-content: space-between;
       align-items: center;
+      justify-content: space-between;
+      padding: 15px 25px;
+      background: white;
+      border-bottom: 4px solid var(--secondary-green);
     }
 
-    .topbar strong {
-      font-family: 'Poppins', sans-serif;
-      font-size: 1.2rem;
+    header h1 {
+      flex: 1;
+      text-align: center;
+      color: var(--primary-green);
+      font-size: 2.2rem;
+      font-weight: bold;
+      margin: 0;
     }
 
-    .topbar a {
+    .logo {
+      width: auto;
+      height: auto;
+      max-height: 55px;
+    }
+
+    .menu-btn {
+      width: 60px;
+      height: 60px;
+      border: none;
+      border-radius: 12px;
+      background: var(--primary-green);
       color: white;
+      font-size: 2rem;
+      cursor: pointer;
+      transition: 0.2s ease;
+    }
+
+    .menu-btn:hover {
+      background: var(--secondary-green);
+    }
+
+    .nav-sidebar {
+      position: fixed;
+      top: 0;
+      right: -300px;
+      width: 300px;
+      height: 100vh;
+      background: white;
+      border-left: 4px solid var(--primary-green);
+      padding: 20px;
+      transition: right 0.3s ease;
+      z-index: 1000;
+      box-shadow: -2px 0 15px rgba(0, 0, 0, 0.2);
+      overflow-y: auto;
+    }
+
+    .nav-sidebar.active {
+      right: 0;
+    }
+
+    .nav-sidebar h3 {
+      margin-top: 25px;
+      margin-bottom: 10px;
+      color: var(--primary-green);
+      border-bottom: 2px solid var(--secondary-green);
+      padding-bottom: 5px;
+    }
+
+    .nav-sidebar a {
+      display: block;
       text-decoration: none;
-      margin-left: 20px;
-      font-size: 14px;
-      font-weight: 600;
+      color: var(--text-dark);
+      padding: 10px;
+      margin-bottom: 5px;
+      border-radius: 8px;
+    }
+
+    .nav-sidebar a:hover {
+      background: var(--secondary-green);
+      color: white;
+    }
+
+    .close-btn {
+      border: none;
+      background: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: var(--primary-green);
+      margin-bottom: 10px;
     }
 
     .app {
       display: grid;
       grid-template-columns: 260px 1fr;
-      min-height: calc(100vh - 54px);
+      min-height: calc(100vh - 94px);
     }
 
     .sidebar {
@@ -307,7 +381,6 @@
     }
 
     @media (max-width: 1000px) {
-
       .app {
         grid-template-columns: 1fr;
       }
@@ -331,14 +404,22 @@
     }
 
     @media (max-width: 600px) {
-
-      .topbar {
-        padding: 14px 16px;
+      header {
+        padding: 12px 16px;
       }
 
-      .topbar a {
-        margin-left: 10px;
-        font-size: 12px;
+      header h1 {
+        font-size: 1.6rem;
+      }
+
+      .logo {
+        max-width: 120px;
+      }
+
+      .menu-btn {
+        width: 50px;
+        height: 50px;
+        font-size: 1.6rem;
       }
 
       .main {
@@ -354,20 +435,41 @@
 
 <body>
 
-  <div class="topbar">
-    <strong>Sentan Navi</strong>
+  <header>
+    <img
+      class="logo"
+      src="https://www.kuas.ac.jp/wp-content/themes/kuasuni-theme/build/images/kuasuni-logo-sm.png"
+      alt="KUAS Logo">
 
-    <div>
-      <a href="#">Home</a>
-      <a href="#">Calendar</a>
-      <a href="#">Q&amp;A</a>
-    </div>
+    <h1>KUAS ナビ</h1>
+
+    <button class="menu-btn">☰</button>
+  </header>
+
+  <div id="nav-sidebar" class="nav-sidebar">
+
+    <button class="close-btn" onclick="toggleMenu()">✕</button>
+
+    <h3>Academic</h3>
+    <a href="#">Schedule</a>
+    <a href="#">Attendance</a>
+    <a href="#">Class Profile</a>
+
+    <h3>Student Services</h3>
+    <a href="#">MyStep</a>
+    <a href="#">Q&amp;A</a>
+    <a href="#">Notices</a>
+
+    <h3>Communication</h3>
+    <a href="#">Sentan Mail</a>
+    <a href="#">Announcements</a>
+
+    <h3>Settings</h3>
+    <a href="#">Preferences</a>
+
   </div>
 
-
   <div class="app">
-
-    <!-- SIDEBAR -->
 
     <aside class="sidebar">
 
@@ -408,8 +510,7 @@
         <ul class="schedule-list">
 
           <li>
-            <a class="schedule-link"
-               href="introduction-to-design.html">
+            <a class="schedule-link" href="introduction-to-design.html">
               <span class="schedule-num">1</span>
               <span>
                 <b>Introduction to Design</b>
@@ -418,8 +519,7 @@
           </li>
 
           <li>
-            <a class="schedule-link active"
-               href="calculus-linear-algebra.html">
+            <a class="schedule-link active" href="calculus-linear-algebra.html">
               <span class="schedule-num">2</span>
               <span>
                 <b>Calculus and Linear...</b>
@@ -428,8 +528,7 @@
           </li>
 
           <li>
-            <a class="schedule-link"
-               href="engineering-physics-2.html">
+            <a class="schedule-link" href="engineering-physics-2.html">
               <span class="schedule-num">3</span>
               <span>
                 <b>Engineering Physics 2</b>
@@ -438,8 +537,7 @@
           </li>
 
           <li>
-            <a class="schedule-link"
-               href="elementary-japanese-3.html">
+            <a class="schedule-link" href="elementary-japanese-3.html">
               <span class="schedule-num">4</span>
               <span>
                 <b>Elementary Japanese 3</b>
@@ -448,8 +546,7 @@
           </li>
 
           <li>
-            <a class="schedule-link"
-               href="algorithmic-thinking-and-programming.html">
+            <a class="schedule-link" href="algorithmic-thinking-and-programming.html">
               <span class="schedule-num">5</span>
               <span>
                 <b>Algorithmic Thinking...</b>
@@ -458,8 +555,7 @@
           </li>
 
           <li>
-            <a class="schedule-link"
-               href="sls-3.html">
+            <a class="schedule-link" href="sls-3.html">
               <span class="schedule-num">6</span>
               <span>
                 <b>SLS III</b>
@@ -468,8 +564,7 @@
           </li>
 
           <li>
-            <a class="schedule-link"
-               href="fundamentals-of-mechanics.html">
+            <a class="schedule-link" href="fundamentals-of-mechanics.html">
               <span class="schedule-num">7</span>
               <span>
                 <b>Fundamentals of...</b>
@@ -509,7 +604,6 @@
       <section class="stats-grid">
 
         <div class="stat-card">
-
           <h3>Assignments</h3>
 
           <img
@@ -525,12 +619,9 @@
           <a class="view-link" href="#">
             View All &gt;
           </a>
-
         </div>
 
-
         <div class="stat-card">
-
           <h3>Materials</h3>
 
           <img
@@ -546,12 +637,9 @@
           <a class="view-link" href="#">
             View All &gt;
           </a>
-
         </div>
 
-
         <div class="stat-card">
-
           <h3>Grades</h3>
 
           <img
@@ -565,21 +653,16 @@
             </span>
           </div>
 
-          <div
-            class="stat-label"
-            style="visibility:hidden;">
+          <div class="stat-label" style="visibility:hidden;">
             .
           </div>
 
           <a class="view-link" href="#">
             View Details &gt;
           </a>
-
         </div>
 
-
         <div class="stat-card">
-
           <h3>Q&amp;A</h3>
 
           <img
@@ -597,7 +680,6 @@
           <a class="view-link" href="#">
             View Details &gt;
           </a>
-
         </div>
 
       </section>
@@ -616,7 +698,6 @@
 
           </div>
 
-
           <div class="announce-item">
 
             <div>
@@ -633,7 +714,6 @@
             </div>
 
           </div>
-
 
           <div class="announce-item">
 
@@ -682,6 +762,18 @@
 
   </div>
 
+  <script>
+    const menuBtn = document.querySelector(".menu-btn");
+    const navSidebar = document.getElementById("nav-sidebar");
+
+    window.toggleMenu = function () {
+      navSidebar.classList.toggle("active");
+    };
+
+    menuBtn.addEventListener("click", toggleMenu);
+  </script>
+
 </body>
 
 </html>
+```
