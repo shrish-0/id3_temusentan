@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html>
 
@@ -35,6 +36,10 @@
       width: auto;
       height: auto;
       max-height: 55px;
+    }
+
+    .logo-link {
+      display: block;
     }
 
     .menu-btn {
@@ -212,114 +217,119 @@
 <body>
 
 <header>
-  <a href="homepage.html">
+
+  <a href="index.html" class="logo-link">
     <img
-    class="logo"
-    src="https://www.kuas.ac.jp/wp-content/themes/kuasuni-theme/build/images/kuasuni-logo-sm.png"
-    alt="KUAS Logo">
-  </a>>
+      class="logo"
+      src="https://www.kuas.ac.jp/wp-content/themes/kuasuni-theme/build/images/kuasuni-logo-sm.png"
+      alt="KUAS Logo">
+  </a>
 
   <h1>KUAS ナビ</h1>
 
-  <button class="menu-btn">☰</button>
+  <button class="menu-btn" type="button">☰</button>
+
 </header>
+
 <div id="nav-sidebar" class="nav-sidebar">
 
-    <button class="close-btn" onclick="toggleMenu()">✕</button>
+  <button class="close-btn" type="button" onclick="toggleMenu()">✕</button>
 
-    <h3>Academic</h3>
-    <a href="ID3-Calendar.html">Schedule</a>
-    <a href="#">Attendance</a>
-    <a href="calculus-linear-algebra.html">Class Profile</a>
+  <h3>Academic</h3>
+  <a href="ID3-Calendar.html">Schedule</a>
+  <a href="#">Attendance</a>
+  <a href="calculus-linear-algebra.html">Class Profile</a>
 
-    <h3>Student Services</h3>
-    <a href="registration.html">Registration</a>
-    <a href="ID3-QnA.html">Q&amp;A</a>
-    <a href="#">Notices</a>
+  <h3>Student Services</h3>
+  <a href="registration.html">Registration</a>
+  <a href="ID3-QnA.html">Q&amp;A</a>
+  <a href="#">Notices</a>
 
-    <h3>Communication</h3>
-    <a href="#">Sentan Mail</a>
-    <a href="#">Announcements</a>
+  <h3>Communication</h3>
+  <a href="#">Sentan Mail</a>
+  <a href="#">Announcements</a>
 
-    <h3>Settings</h3>
-    <a href="#">Preferences</a>
-
+  <h3>Settings</h3>
+  <a href="#">Preferences</a>
 
 </div>
 
-  <div class="box">
-    <h1>Ask a Question</h1>
+<div class="box">
 
-    <form id="qaForm">
+  <h1>Ask a Question</h1>
 
-      <label>Send to:</label>
+  <form id="qaForm">
 
-      <select>
-        <option>Student Affairs Center</option>
-        <option>Financial Affairs Division</option>
-        <option>Academic Office</option>
-      </select>
+    <label>Send to:</label>
 
-      <label>Subject:</label>
+    <select>
+      <option>Student Affairs Center</option>
+      <option>Financial Affairs Division</option>
+      <option>Academic Office</option>
+    </select>
 
-      <input type="text" required>
+    <label>Subject:</label>
 
-      <label>Message:</label>
+    <input type="text" required>
 
-      <textarea rows="4" required></textarea>
+    <label>Message:</label>
 
-      <button type="submit">Send</button>
+    <textarea rows="4" required></textarea>
 
-      <div id="confirmMsg">
-        Your question has been sent!
-      </div>
+    <button type="submit">Send</button>
 
-    </form>
-  </div>
-
-  <div class="box">
-
-    <h1>Your Questions</h1>
-
-    <div class="question">
-      <strong>Certificate of payment fee</strong>
-      <p class="answered">Answered</p>
-      <p>Financial Affairs Division - Jul 20, 2026</p>
+    <div id="confirmMsg">
+      Your question has been sent!
     </div>
 
-    <div class="question">
-      <strong>Lost student ID</strong>
-      <p class="pending">Pending</p>
-      <p>Student Affairs Center - Jul 22, 2026</p>
-    </div>
+  </form>
 
+</div>
+
+<div class="box">
+
+  <h1>Your Questions</h1>
+
+  <div class="question">
+    <strong>Certificate of payment fee</strong>
+    <p class="answered">Answered</p>
+    <p>Financial Affairs Division - Jul 20, 2026</p>
   </div>
 
-  <script>
-    const menuBtn = document.querySelector(".menu-btn");
-    const navSidebar = document.getElementById("nav-sidebar");
+  <div class="question">
+    <strong>Lost student ID</strong>
+    <p class="pending">Pending</p>
+    <p>Student Affairs Center - Jul 22, 2026</p>
+  </div>
 
-    window.toggleMenu = function () {
-      navSidebar.classList.toggle("active");
-    };
+</div>
 
-    menuBtn.addEventListener("click", toggleMenu);
+<script>
+  const menuBtn = document.querySelector(".menu-btn");
+  const navSidebar = document.getElementById("nav-sidebar");
 
-    var form = document.getElementById("qaForm");
-    var confirmMsg = document.getElementById("confirmMsg");
+  window.toggleMenu = function () {
+    navSidebar.classList.toggle("active");
+  };
 
-    form.addEventListener("submit", function (event) {
-      event.preventDefault();
+  menuBtn.addEventListener("click", toggleMenu);
 
-      confirmMsg.style.display = "block";
-      form.reset();
+  const form = document.getElementById("qaForm");
+  const confirmMsg = document.getElementById("confirmMsg");
 
-      setTimeout(function () {
-        confirmMsg.style.display = "none";
-      }, 4000);
-    });
-  </script>
+  form.addEventListener("submit", function (event) {
+    event.preventDefault();
+
+    confirmMsg.style.display = "block";
+    form.reset();
+
+    setTimeout(function () {
+      confirmMsg.style.display = "none";
+    }, 4000);
+  });
+</script>
 
 </body>
 
 </html>
+```
