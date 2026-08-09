@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>My Course Checklist</title>
+<style>
+  /* color variables used by the header/sidebar */
+  :root {
+    --primary-green: #9ACD32;
+    --secondary-green: #7ba82a;
+  }
+
+  /* overall page look: light grey background */
+  body {
+    font-family: Arial, sans-serif;
+    background-color: #e8e8e8;
+    margin: 0; /* header should touch the edges, content gets its own padding below */
+  }
+
+  /* wraps everything except the header, so it keeps the old page margin */
+  #pageContent {
+    margin: 20px;
+  }
+
+  /* top header bar with logo, site name, and menu button */
+  header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background-color: white;
+    padding: 10px 20px;
+    border-bottom: 2px solid var(--primary-green);
+  }
+
+  header h1 {
+    margin: 0;
+    flex: 1; /* pushes the menu button to the right */
+    font-size: 1.4rem;
+  }
+
+  .logo {
+    width: 40px;
+    height: 40px;
+  }
+
+  /* Menu Button */
+  .menu-btn {
+    width: 45px;
+    height: 45px;
+
+    border: none;
+    border-radius: 12px;
+
+    background: var(--primary-green);
+    color: white;
+
+    font-size: 1.3rem;
+    cursor: pointer;
+
+    transition: 0.2s ease;
+  }
+
+  .menu-btn:hover {
+    background: var(--secondary-green);
+  }
+
+  /* sidebar menu, hidden off-screen until toggled open */
+  .sidebar {
+    position: fixed;
+    top: 0;
+    right: -260px; /* starts off screen */
+    width: 260px;
+    height: 100%;
+    background-color: white;
+    border-left: 2px solid var(--primary-green);
+    padding: 20px;
+    transition: right 0.3s ease;
+    z-index: 10;
+  }
+
+  .sidebar.open {
+    right: 0; /* slides into view when open */
+  }
+
+  .close-btn {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: #2e4d00;
+  }
+
+  /* headings use lime green as the accent color */
+  h1 {
+    color: #4CAF00;
+  }
+
+  h2 {
+    color: #4CAF00;
+    margin-top: 40px;
+  }
+
+  h3 {
+    margin-bottom: 5px;
+  }
+
+  /* each course row (mandatory or elective) */
+  .course {
+    margin: 5px 0;
+    padding: 5px;
+    background-color: #f5f5f5;
+  }
+
+  .credits {
+    color: gray;
+    font-size: 14px;
+  }
+
+  /* the grey background strip behind the progress bar */
+  #progressBarOutside {
+    width: 100%;
+    background-color: #d3d3d3;
+    border: 1px solid gray;
+    height: 25px;
+  }
+
+  /* the lime green fill that grows as credits get checked off */
+  #progressBarInside {
+    height: 100%;
+    background-color: #9ACD32;
+    width: 0%;
+    text-align: center;
+    color: #2e4d00;
+    font-weight: bold;
+  }
+
+  button {
+    padding: 5px 10px;
+    margin: 3px;
+    background-color: #f5f5f5;
+    border: 1px solid gray;
+  }
+
+  /* highlights whichever career goal button is currently picked */
+  .selectedButton {
+    background-color: #9ACD32;
+    color: #2e4d00;
+    border: 1px solid #7ba82a;
+  }
+
+  /* lime green border around electives that match the chosen career goal */
+  .recommended {
+    border: 2px solid #9ACD32;
+  }
+</style>
+</head>
+<body>
+
+<!-- top header bar -->
+<header>
+  <img
+    class="logo"
+    src="data:image/png;base64,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"
+    alt="KUAS Logo">
+  <h1>KUAS ナビ</h1>
+  <button class="menu-btn" onclick="toggleMenu()">☰</button>
+</header>
+
+<!-- sidebar menu, slides in from the right when the ☰ button is clicked -->
+<div id="sidebar" class="sidebar">
+  <button class="close-btn" onclick="toggleMenu()">✕</button>
+</div>
+
+<div id="pageContent">
+<h2>My Course Checklist</h2>
+<p>Check off the mandatory classes you have finished. Then pick a career goal to see elective suggestions.</p>
+
+<!-- credit progress bar, filled in by updateProgressBar() -->
+<h2>Progress: <span id="creditsDone">0</span> / <span id="creditsTotal">0</span> credits</h2>
+<div id="progressBarOutside">
+  <div id="progressBarInside">0%</div>
+</div>
+
+<!-- mandatory course checklist, filled in by drawCourseList() -->
+<h2>Mandatory Courses</h2>
+<div id="courseListDiv"></div>
+
+<!-- career goal buttons, filled in by drawGoalButtons() -->
+<h2>Pick Your Career Goal</h2>
+<div id="goalButtonsDiv"></div>
+
+<!-- elective suggestions, filled in by drawElectiveList() -->
+<h2>Suggested Electives</h2>
+<div id="electiveListDiv"></div>
+
+<!-- submit button, runs submitForm() to show a summary -->
+<br>
+<button onclick="submitForm()">Submit</button>
+<div id="submitMessage"></div>
+
+</div> <!-- closes #pageContent -->
+
+<script>
+
+// opens or closes the sidebar by adding/removing the "open" class
+function toggleMenu() {
+  var sidebar = document.getElementById("sidebar");
+  sidebar.classList.toggle("open");
+}
+
+// list of mandatory courses
+var mandatoryCourses = [
+  { id: 1, code: "JPN 101", name: "Japanese", credits: 2, group: "Core Requirements", done: false },
+  { id: 2, code: "MATH 210", name: "Calculus", credits: 4, group: "Core Requirements", done: false },
+  { id: 3, code: "MATH 220", name: "Linear Algebra", credits: 3, group: "Core Requirements", done: false },
+  { id: 4, code: "ME 230", name: "Fundamental Mechanics", credits: 3, group: "Core Requirements", done: false },
+  { id: 5, code: "CS 110", name: "Introduction to Python", credits: 3, group: "Core Requirements", done: false },
+  { id: 6, code: "PHYS 240", name: "Engineering Physics", credits: 4, group: "Core Requirements", done: false },
+  { id: 7, code: "PE 300", name: "Sports Practical (Choose an Event)", credits: 2, group: "Physical Education", done: false, hasDropdown: true },
+  { id: 8, code: "CAP 490", name: "Senior Capstone Project", credits: 5, group: "Capstone", done: false }
+];
+
+// choices for the sports practical dropdown
+var sportOptions = ["Table Tennis", "Basketball", "New Sports", "Softball", "Fitness", "Fitness Training"];
+var selectedSport = ""; // stores whichever sport the student picks from the dropdown
+
+// runs when the dropdown value changes, saves the choice into selectedSport
+function setSport(sport) {
+  selectedSport = sport;
+}
+
+// list of career goals for the buttons (engineering disciplines only)
+var careerGoals = ["mechanical", "electrical", "civil", "computer", "chemical"];
+
+// list of elective courses, each has tags for which goals they match
+var electiveCourses = [
+  { code: "ME 210", name: "Statics and Dynamics", credits: 4, tags: ["mechanical", "civil"], why: "Core to understanding forces on structures and machines." },
+  { code: "ME 320", name: "Thermodynamics", credits: 4, tags: ["mechanical", "chemical"], why: "Needed for engines, HVAC, and energy systems." },
+  { code: "ME 350", name: "Machine Design", credits: 3, tags: ["mechanical"], why: "Teaches how to design real mechanical parts." },
+  { code: "EE 210", name: "Circuit Analysis", credits: 4, tags: ["electrical", "computer"], why: "The foundation for anything with circuits." },
+  { code: "EE 330", name: "Signals and Systems", credits: 3, tags: ["electrical"], why: "Used in communications, audio, and controls." },
+  { code: "EE 340", name: "Electromagnetics", credits: 3, tags: ["electrical"], why: "Explains how antennas, motors, and sensors work." },
+  { code: "CE 220", name: "Structural Analysis", credits: 4, tags: ["civil"], why: "Needed to design buildings and bridges safely." },
+  { code: "CE 250", name: "Fluid Mechanics", credits: 3, tags: ["civil", "mechanical"], why: "Used in water systems, HVAC, and hydraulics." },
+  { code: "CE 310", name: "Geotechnical Engineering", credits: 3, tags: ["civil"], why: "Covers how soil and foundations behave." },
+  { code: "CS 215", name: "Data Structures and Algorithms", credits: 4, tags: ["computer"], why: "Needed for almost every software engineering job." },
+  { code: "CS 330", name: "Computer Architecture", credits: 3, tags: ["computer", "electrical"], why: "Connects hardware and software together." },
+  { code: "CS 355", name: "Embedded Systems", credits: 3, tags: ["computer", "electrical"], why: "Useful for robotics and hardware projects." },
+  { code: "CHE 210", name: "Chemical Process Principles", credits: 4, tags: ["chemical"], why: "The starting point for most chemical engineering work." },
+  { code: "CHE 310", name: "Reaction Engineering", credits: 3, tags: ["chemical"], why: "Explains how chemical reactions are scaled up safely." },
+  { code: "CHE 330", name: "Heat and Mass Transfer", credits: 3, tags: ["chemical", "mechanical"], why: "Common ground between chemical and mechanical engineering." }
+];
+
+var currentGoal = "undecided"; // which career goal button is currently selected
+
+// adds up the credits for every mandatory course (whether done or not)
+function calculateTotalCredits() {
+  var total = 0;
+  for (var i = 0; i < mandatoryCourses.length; i++) {
+    total = total + mandatoryCourses[i].credits;
+  }
+  return total;
+}
+
+// adds up the credits only for mandatory courses that are checked off
+function calculateDoneCredits() {
+  var done = 0;
+  for (var i = 0; i < mandatoryCourses.length; i++) {
+    if (mandatoryCourses[i].done) {
+      done = done + mandatoryCourses[i].credits;
+    }
+  }
+  return done;
+}
+
+// updates the numbers and the green bar at the top of the page
+function updateProgressBar() {
+  var total = calculateTotalCredits();
+  var done = calculateDoneCredits();
+  var percent = Math.round((done / total) * 100);
+
+  document.getElementById("creditsDone").innerHTML = done;
+  document.getElementById("creditsTotal").innerHTML = total;
+  document.getElementById("progressBarInside").style.width = percent + "%";
+  document.getElementById("progressBarInside").innerHTML = percent + "%";
+}
+
+// flips a course between done and not done when its checkbox is clicked
+function toggleCourse(courseId) {
+  for (var i = 0; i < mandatoryCourses.length; i++) {
+    if (mandatoryCourses[i].id === courseId) {
+      mandatoryCourses[i].done = !mandatoryCourses[i].done;
+    }
+  }
+  drawCourseList(); // redraw so the checkbox and strikethrough update
+  updateProgressBar(); // recalculate the credit total
+}
+
+// builds the mandatory course checklist, grouped by category (Core Requirements, etc.)
+function drawCourseList() {
+  var listDiv = document.getElementById("courseListDiv");
+  listDiv.innerHTML = "";
+
+  // group courses by their group name
+  var groupNames = [];
+  for (var i = 0; i < mandatoryCourses.length; i++) {
+    if (groupNames.indexOf(mandatoryCourses[i].group) === -1) {
+      groupNames.push(mandatoryCourses[i].group);
+    }
+  }
+
+  for (var g = 0; g < groupNames.length; g++) {
+    var groupName = groupNames[g];
+    var heading = document.createElement("h3");
+    heading.innerHTML = groupName; // e.g. "Core Requirements"
+    listDiv.appendChild(heading);
+
+    // loop through every course again, only show the ones in this group
+    for (var i = 0; i < mandatoryCourses.length; i++) {
+      var course = mandatoryCourses[i];
+      if (course.group === groupName) {
+        var div = document.createElement("div");
+        div.className = "course";
+
+        var checkbox = document.createElement("input");
+        checkbox.type = "checkbox";
+        checkbox.checked = course.done;
+        checkbox.onclick = (function(id) {
+          return function() { toggleCourse(id); };
+        })(course.id); // remembers which course this checkbox belongs to
+
+        div.appendChild(checkbox);
+
+        // build the label as its own element instead of using innerHTML +=
+        // (innerHTML += rebuilds the whole div from text, which would destroy
+        // the checkbox above and its onclick handler)
+        var label = document.createElement("span");
+        label.innerHTML = " " + course.name +
+          " <span class='credits'>(" + course.credits + " credits)</span>";
+        div.appendChild(label);
+
+        // if this course has a dropdown, add it (used for the sports practical course)
+        if (course.hasDropdown) {
+          var selectBox = document.createElement("select");
+
+          var blankOption = document.createElement("option");
+          blankOption.value = "";
+          blankOption.innerHTML = "-- choose a sport --";
+          selectBox.appendChild(blankOption);
+
+          for (var s = 0; s < sportOptions.length; s++) {
+            var option = document.createElement("option");
+            option.value = sportOptions[s];
+            option.innerHTML = sportOptions[s];
+            if (sportOptions[s] === selectedSport) {
+              option.selected = true;
+            }
+            selectBox.appendChild(option);
+          }
+
+          selectBox.onchange = function() {
+            setSport(this.value);
+          };
+
+          div.appendChild(selectBox);
+        }
+
+        listDiv.appendChild(div);
+      }
+    }
+  }
+}
+
+// runs when a career goal button is clicked
+function setGoal(goal) {
+  currentGoal = goal;
+  drawGoalButtons(); // redraw so the clicked button turns lime green
+  drawElectiveList(); // redraw so matching electives move to the top
+}
+
+// draws the row of career goal buttons (mechanical, electrical, etc.)
+function drawGoalButtons() {
+  var buttonsDiv = document.getElementById("goalButtonsDiv");
+  buttonsDiv.innerHTML = "";
+
+  for (var i = 0; i < careerGoals.length; i++) {
+    var goal = careerGoals[i];
+    var button = document.createElement("button");
+    button.innerHTML = goal;
+    if (goal === currentGoal) {
+      button.className = "selectedButton"; // highlight the active goal
+    }
+    button.onclick = (function(g) {
+      return function() { setGoal(g); };
+    })(goal);
+    buttonsDiv.appendChild(button);
+  }
+}
+
+// draws the elective list, with courses matching the chosen goal shown first
+function drawElectiveList() {
+  var listDiv = document.getElementById("electiveListDiv");
+  listDiv.innerHTML = "";
+
+  // split electives into two groups: matches the goal, and everything else
+  var matching = [];
+  var notMatching = [];
+
+  for (var i = 0; i < electiveCourses.length; i++) {
+    var course = electiveCourses[i];
+    if (course.tags.indexOf(currentGoal) !== -1) {
+      matching.push(course);
+    } else {
+      notMatching.push(course);
+    }
+  }
+
+  // put the matching electives on top, then the rest
+  var sortedList = matching.concat(notMatching);
+
+  for (var i = 0; i < sortedList.length; i++) {
+    var course = sortedList[i];
+    var div = document.createElement("div");
+    div.className = "course";
+    if (course.tags.indexOf(currentGoal) !== -1) {
+      div.className += " recommended"; // adds the lime green border
+    }
+
+    var recommendedText = "";
+    if (course.tags.indexOf(currentGoal) !== -1) {
+      recommendedText = " <b>(recommended for you)</b>";
+    }
+
+    div.innerHTML = course.name +
+      " <span class='credits'>(" + course.credits + " credits)</span>" +
+      recommendedText + "<br>123"; // 123 is placeholder text, swap in real descriptions later
+
+    listDiv.appendChild(div);
+  }
+}
+
+// runs when the Submit button is clicked, shows a short summary of everything picked
+function submitForm() {
+  var done = calculateDoneCredits();
+  var total = calculateTotalCredits();
+  var message = "You have completed " + done + " out of " + total + " mandatory credits.";
+
+  if (selectedSport !== "") {
+    message = message + " Sport chosen: " + selectedSport + ".";
+  } else {
+    message = message + " No sport chosen yet.";
+  }
+
+  message = message + " Career goal: " + currentGoal + ".";
+
+  document.getElementById("submitMessage").innerHTML = message;
+}
+
+// run everything when the page loads
+drawCourseList();
+updateProgressBar();
+drawGoalButtons();
+drawElectiveList();
+
+</script>
+
+</body>
+</html>
