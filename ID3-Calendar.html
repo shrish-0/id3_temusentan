@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Sentan Navi - Calendar</title>
+  <style>
+    /* ---- basic page styling ---- */
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      /* KUAS light grey */
+      margin: 0;
+      padding: 20px;
+    }
+
+    /* ---- top bar ---- */
+    .topbar {
+      background-color: #0e995a;
+      /* KUAS green */
+      color: white;
+      padding: 15px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin: -20px -20px 20px -20px;
+    }
+
+    .topbar a {
+      color: white;
+      text-decoration: none;
+      margin-left: 15px;
+      font-size: 14px;
+    }
+
+    /* ---- calendar box ---- */
+    .calendar-box {
+      background-color: white;
+      border: 1px solid #f4f4f4;
+      /* only grey used */
+      border-radius: 6px;
+      padding: 15px;
+      max-width: 700px;
+    }
+
+    .calendar-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+
+    .calendar-header h1 {
+      font-size: 20px;
+      color: #0e995a;
+    }
+
+    button {
+      background-color: #0e995a;
+      color: white;
+      border: none;
+      padding: 6px 12px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #90c41f;
+    }
+
+    .day-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 5px;
+    }
+
+    .day-grid div {
+      text-align: center;
+      padding: 12px 5px;
+      background-color: #f4f4f4;
+      /* only grey used */
+      border-radius: 4px;
+      font-size: 14px;
+    }
+
+    .weekday {
+      font-weight: bold;
+      background-color: transparent !important;
+      color: #0e995a;
+    }
+
+    .today {
+      background-color: #90c41f !important;
+      font-weight: bold;
+      color: white;
+    }
+
+    .event {
+      display: block;
+      font-size: 10px;
+      color: #0e995a;
+      margin-top: 3px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="topbar">
+    <strong>Sentan Navi</strong>
+    <div>
+      <a href="#">Home</a>
+      <a href="#">Calendar</a>
+      <a href="#">Q&A</a>
+    </div>
+  </div>
+
+  <div class="calendar-box">
+    <div class="calendar-header">
+      <h1 id="monthTitle">July 2026</h1>
+      <div>
+        <button onclick="changeMonth(-1)">Previous</button>
+        <button onclick="changeMonth(1)">Next</button>
+      </div>
+    </div>
+
+    <div class="day-grid" id="dayGrid">
+      <!-- filled in by JavaScript below -->
+    </div>
+  </div>
+
+  <div class="calendar-box" style="margin-top:15px; max-width:700px;">
+    <h1 style="font-size:16px; color:#48604d; margin-top:0;">Add an event to this month</h1>
+    <form id="addEventForm" style="display:flex; gap:10px; flex-wrap:wrap; align-items:flex-end;">
+      <div>
+        <label style="display:block; font-size:13px; margin-bottom:4px;">Day of month</label>
+        <input type="number" id="eventDay" min="1" max="31" required style="width:80px; padding:6px;">
+      </div>
+      <div style="flex:1; min-width:150px;">
+        <label style="display:block; font-size:13px; margin-bottom:4px;">Event name</label>
+        <input type="text" id="eventLabel" required style="width:100%; padding:6px; box-sizing:border-box;">
+      </div>
+      <button type="submit">Add event</button>
+    </form>
+  </div>
+
+  <script>
+    // which month/year we're currently showing
+    var currentMonth = 6; // 0 = January, so 6 = July
+    var currentYear = 2026;
+
+    var monthNames = ["January", "February", "March", "April", "May", "June",
+      "July", "August", "September", "October", "November", "December"];
+
+    // a simple lookup of events: "month-day" -> list of event names
+    var events = {
+      "6-24": ["Tuition due"],
+      "6-29": ["Scholarship deadline"],
+      "6-3": ["Intensive begins"]
+    };
+
+    function drawCalendar() {
+      var grid = document.getElementById("dayGrid");
+      grid.innerHTML = ""; // clear out the old month first
+
+      document.getElementById("monthTitle").innerText = monthNames[currentMonth] + " " + currentYear;
+
+      // add the weekday labels first
+      var weekdays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+      for (var i = 0; i < 7; i++) {
+        var label = document.createElement("div");
+        label.innerText = weekdays[i];
+        label.className = "weekday";
+        grid.appendChild(label);
+      }
+
+      // figure out how many days are in this month
+      var daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+      // figure out what weekday the 1st falls on (0 = Sunday)
+      var startDay = new Date(currentYear, currentMonth, 1).getDay();
+
+      // add blank boxes before day 1 so it lines up under the right weekday
+      for (var i = 0; i < startDay; i++) {
+        var blank = document.createElement("div");
+        grid.appendChild(blank);
+      }
+
+      // add a box for every day in the month
+      for (var day = 1; day <= daysInMonth; day++) {
+        var dayBox = document.createElement("div");
+        dayBox.innerText = day;
+
+        // check if this is today (hardcoded to July 24, 2026 for this demo)
+        if (currentMonth === 6 && currentYear === 2026 && day === 24) {
+          dayBox.className = "today";
+        }
+
+        // check if there are any events on this day
+        var key = currentMonth + "-" + day;
+        if (events[key]) {
+          for (var e = 0; e < events[key].length; e++) {
+            var eventText = document.createElement("span");
+            eventText.className = "event";
+            eventText.innerText = events[key][e];
+            dayBox.appendChild(eventText);
+          }
+        }
+
+        grid.appendChild(dayBox);
+      }
+    }
+
+    function changeMonth(direction) {
+      currentMonth = currentMonth + direction;
+
+      // roll over into the next/previous year if needed
+      if (currentMonth > 11) {
+        currentMonth = 0;
+        currentYear++;
+      } else if (currentMonth < 0) {
+        currentMonth = 11;
+        currentYear--;
+      }
+
+      drawCalendar();
+    }
+
+    // ---- handle the "add an event" form ----
+    document.getElementById("addEventForm").addEventListener("submit", function (event) {
+      event.preventDefault(); // stop the page from refreshing
+
+      var day = document.getElementById("eventDay").value;
+      var label = document.getElementById("eventLabel").value;
+
+      var key = currentMonth + "-" + day; // save it under whatever month is showing right now
+
+      // if this day doesn't have any events yet, start a new empty list
+      if (!events[key]) {
+        events[key] = [];
+      }
+      events[key].push(label);
+
+      drawCalendar(); // redraw so the new event shows up right away
+      document.getElementById("addEventForm").reset();
+    });
+
+    // draw the calendar as soon as the page loads
+    drawCalendar();
+  </script>
+
+</body>
+
+</html>

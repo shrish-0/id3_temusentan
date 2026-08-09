@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Sentan Navi - Q&A</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      /* KUAS-style grey */
+      margin: 0;
+      padding: 20px;
+    }
+
+    .topbar {
+      background-color: #0e995a;
+      /* KUAS green */
+      color: white;
+      padding: 15px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin: -20px -20px 20px -20px;
+    }
+
+    .topbar a {
+      color: white;
+      text-decoration: none;
+      margin-left: 15px;
+      font-size: 14px;
+    }
+
+    .box {
+      background-color: white;
+      border: 1px solid #f4f4f4;
+      /* only grey used */
+      border-radius: 6px;
+      padding: 20px;
+      max-width: 600px;
+      margin-bottom: 20px;
+    }
+
+    .box h1 {
+      font-size: 18px;
+      color: #0e995a;
+      margin-top: 0;
+    }
+
+    label {
+      display: block;
+      margin-top: 12px;
+      font-weight: bold;
+      font-size: 14px;
+      color: #0e995a;
+    }
+
+    input,
+    select,
+    textarea {
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+      border: 1px solid #f4f4f4;
+      /* only grey used */
+      border-radius: 4px;
+      box-sizing: border-box;
+      /* keeps padding from making inputs overflow their box */
+      font-family: inherit;
+    }
+
+    button {
+      background-color: #0e995a;
+      color: white;
+      border: none;
+      padding: 10px 18px;
+      border-radius: 4px;
+      cursor: pointer;
+      margin-top: 15px;
+    }
+
+    button:hover {
+      background-color: #90c41f;
+    }
+
+    #confirmMsg {
+      display: none;
+      background-color: #90c41f;
+      color: white;
+      padding: 10px;
+      border-radius: 4px;
+      margin-top: 10px;
+      font-size: 14px;
+    }
+
+    .question {
+      border-bottom: 1px solid #f4f4f4;
+      /* only grey used */
+      padding: 12px 0;
+    }
+
+    .question:last-child {
+      border-bottom: none;
+    }
+
+    .answered {
+      color: #48604d;
+      font-weight: bold;
+      font-size: 12px;
+    }
+
+    .pending {
+      color: #a67c1e;
+      font-weight: bold;
+      font-size: 12px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="topbar">
+    <strong>Sentan Navi</strong>
+    <div>
+      <a href="#">Home</a>
+      <a href="#">Calendar</a>
+      <a href="#">Q&A</a>
+    </div>
+  </div>
+
+  <div class="box">
+    <h1>Ask a Question</h1>
+
+    <form id="qaForm">
+      <label>Send to:</label>
+      <select>
+        <option>Student Affairs Center</option>
+        <option>Financial Affairs Division</option>
+        <option>Academic Office</option>
+      </select>
+
+      <label>Subject:</label>
+      <input type="text" required>
+
+      <label>Message:</label>
+      <textarea rows="4" required></textarea>
+
+      <button type="submit">Send</button>
+      <div id="confirmMsg">Your question has been sent!</div>
+    </form>
+  </div>
+
+  <div class="box">
+    <h1>Your Questions</h1>
+
+    <div class="question">
+      <strong>Certificate of payment fee</strong>
+      <p class="answered">Answered</p>
+      <p>Financial Affairs Division - Jul 20, 2026</p>
+    </div>
+
+    <div class="question">
+      <strong>Lost student ID</strong>
+      <p class="pending">Pending</p>
+      <p>Student Affairs Center - Jul 22, 2026</p>
+    </div>
+  </div>
+
+  <script>
+    var form = document.getElementById("qaForm");
+    var confirmMsg = document.getElementById("confirmMsg");
+
+    form.addEventListener("submit", function (event) {
+      event.preventDefault(); // stops the page from refreshing when the form is sent
+
+      confirmMsg.style.display = "block"; // show the confirmation box
+      form.reset(); // clear the form fields
+
+      // hide the confirmation again after 4 seconds
+      setTimeout(function () {
+        confirmMsg.style.display = "none";
+      }, 4000);
+    });
+  </script>
+
+</body>
+
+</html>
