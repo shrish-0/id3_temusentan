@@ -1,186 +1,475 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
-  <title>Sentan Navi - Q&A</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #f4f4f4;
-      /* KUAS-style grey */
-      margin: 0;
-      padding: 20px;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sentan Navi - Q&A</title>
 
-    .topbar {
-      background-color: #0e995a;
-      /* KUAS green */
-      color: white;
-      padding: 15px 20px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin: -20px -20px 20px -20px;
-    }
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-    .topbar a {
-      color: white;
-      text-decoration: none;
-      margin-left: 15px;
-      font-size: 14px;
-    }
+<style>
+:root {
+  --green-deep: #17965d;
+  --green-mid: #3f8a63;
+  --lime: #8dc63f;
+  --link-blue: #3b5fe0;
+  --ink: #1b241f;
+  --ink-soft: #5b6862;
+  --bg: #fbfcfa;
+  --card-bg: #ffffff;
+  --radius-lg: 22px;
+}
 
-    .box {
-      background-color: white;
-      border: 1px solid #f4f4f4;
-      /* only grey used */
-      border-radius: 6px;
-      padding: 20px;
-      max-width: 600px;
-      margin-bottom: 20px;
-    }
+* {
+  box-sizing: border-box;
+}
 
-    .box h1 {
-      font-size: 18px;
-      color: #0e995a;
-      margin-top: 0;
-    }
+body {
+  margin: 0;
+  background: var(--bg);
+  font-family: 'Inter', sans-serif;
+  color: var(--ink);
+}
 
-    label {
-      display: block;
-      margin-top: 12px;
-      font-weight: bold;
-      font-size: 14px;
-      color: #0e995a;
-    }
+h1,
+h3 {
+  font-family: 'Poppins', sans-serif;
+}
 
-    input,
-    select,
-    textarea {
-      width: 100%;
-      padding: 8px;
-      margin-top: 5px;
-      border: 1px solid #f4f4f4;
-      /* only grey used */
-      border-radius: 4px;
-      box-sizing: border-box;
-      /* keeps padding from making inputs overflow their box */
-      font-family: inherit;
-    }
+img {
+  display: block;
+}
 
-    button {
-      background-color: #0e995a;
-      color: white;
-      border: none;
-      padding: 10px 18px;
-      border-radius: 4px;
-      cursor: pointer;
-      margin-top: 15px;
-    }
+.topbar {
+  background-color: var(--green-deep);
+  color: white;
+  padding: 15px 25px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
 
-    button:hover {
-      background-color: #90c41f;
-    }
+.topbar strong {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.2rem;
+}
 
-    #confirmMsg {
-      display: none;
-      background-color: #90c41f;
-      color: white;
-      padding: 10px;
-      border-radius: 4px;
-      margin-top: 10px;
-      font-size: 14px;
-    }
+.topbar a {
+  color: white;
+  text-decoration: none;
+  margin-left: 20px;
+  font-size: 14px;
+  font-weight: 600;
+}
 
-    .question {
-      border-bottom: 1px solid #f4f4f4;
-      /* only grey used */
-      padding: 12px 0;
-    }
+.topbar a:hover {
+  color: var(--lime);
+}
 
-    .question:last-child {
-      border-bottom: none;
-    }
+.app {
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  min-height: calc(100vh - 54px);
+}
 
-    .answered {
-      color: #48604d;
-      font-weight: bold;
-      font-size: 12px;
-    }
+.sidebar {
+  padding: 32px 20px;
+  border-right: 1px solid #eef1ec;
+}
 
-    .pending {
-      color: #a67c1e;
-      font-weight: bold;
-      font-size: 12px;
-    }
-  </style>
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 10px;
+  border-radius: 12px;
+  color: var(--green-deep);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.nav-item:hover {
+  background: #eef7ee;
+}
+
+.nav-item img {
+  width: 22px;
+  height: 22px;
+}
+
+.schedule-card {
+  margin-top: 48px;
+  border: 2px solid var(--green-deep);
+  border-radius: var(--radius-lg);
+  padding: 18px 16px;
+}
+
+.schedule-list {
+  list-style: none;
+  margin: 0 0 12px;
+  padding: 0;
+}
+
+.schedule-list li {
+  margin-bottom: 2px;
+  font-size: .85rem;
+}
+
+.schedule-num {
+  font-weight: 700;
+  color: var(--green-mid);
+}
+
+.schedule-list b {
+  font-size: .88rem;
+  font-weight: 600;
+}
+
+.schedule-link {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px;
+  margin: 0 -8px;
+  border-radius: 8px;
+  text-decoration: none;
+  color: inherit;
+}
+
+.schedule-link:hover {
+  background: #eef7ee;
+}
+
+.schedule-link.active {
+  background: #eef7ee;
+}
+
+.main {
+  padding: 32px 40px 48px;
+}
+
+.box {
+  background: var(--card-bg);
+  border: 2px solid var(--lime);
+  border-radius: var(--radius-lg);
+  padding: 22px 26px;
+  max-width: 900px;
+  margin-bottom: 22px;
+}
+
+.box h1 {
+  font-size: 1.4rem;
+  color: var(--green-deep);
+  margin-top: 0;
+  margin-bottom: 20px;
+}
+
+label {
+  display: block;
+  margin-top: 16px;
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--green-deep);
+}
+
+input,
+select,
+textarea {
+  width: 100%;
+  padding: 10px;
+  margin-top: 6px;
+  border: 1px solid #dce3dd;
+  border-radius: 8px;
+  box-sizing: border-box;
+  font-family: inherit;
+  font-size: 14px;
+  background: white;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  outline: none;
+  border-color: var(--green-deep);
+}
+
+button {
+  background-color: var(--green-deep);
+  color: white;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-top: 18px;
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+}
+
+button:hover {
+  background-color: var(--lime);
+}
+
+#confirmMsg {
+  display: none;
+  background-color: var(--lime);
+  color: white;
+  padding: 10px 14px;
+  border-radius: 8px;
+  margin-top: 12px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.question {
+  border-bottom: 1px solid #eef1ec;
+  padding: 16px 0;
+}
+
+.question:last-child {
+  border-bottom: none;
+}
+
+.question strong {
+  font-family: 'Poppins', sans-serif;
+}
+
+.question p {
+  margin: 6px 0 0;
+  color: var(--ink-soft);
+  font-size: 14px;
+}
+
+.answered {
+  color: var(--green-mid) !important;
+  font-weight: 700;
+  font-size: 12px !important;
+}
+
+.pending {
+  color: #a67c1e !important;
+  font-weight: 700;
+  font-size: 12px !important;
+}
+
+@media (max-width: 1000px) {
+  .app {
+    grid-template-columns: 1fr;
+  }
+
+  .sidebar {
+    border-right: none;
+    border-bottom: 1px solid #eef1ec;
+  }
+}
+
+@media (max-width: 600px) {
+  .topbar {
+    padding: 14px 16px;
+  }
+
+  .topbar a {
+    margin-left: 10px;
+    font-size: 12px;
+  }
+
+  .main {
+    padding: 24px 18px 40px;
+  }
+}
+</style>
 </head>
 
 <body>
 
-  <div class="topbar">
-    <strong>Sentan Navi</strong>
-    <div>
-      <a href="#">Home</a>
-      <a href="ID3-Calendar.html">Calendar</a>
-      <a href="ID3-QnA.html">Q&A</a>
-    </div>
+<div class="topbar">
+  <strong>Sentan Navi</strong>
+
+  <div>
+    <a href="#">Home</a>
+    <a href="ID3-Calendar.html">Calendar</a>
+    <a href="ID3-QnA.html">Q&amp;A</a>
   </div>
+</div>
 
-  <div class="box">
-    <h1>Ask a Question</h1>
+<div class="app">
 
-    <form id="qaForm">
-      <label>Send to:</label>
-      <select>
-        <option>Student Affairs Center</option>
-        <option>Financial Affairs Division</option>
-        <option>Academic Office</option>
-      </select>
+  <aside class="sidebar">
 
-      <label>Subject:</label>
-      <input type="text" required>
+    <a class="nav-item" href="#">
+      <img src="https://i.ibb.co/B52rXLsW/home.png" alt="">
+      Dashboard
+    </a>
 
-      <label>Message:</label>
-      <textarea rows="4" required></textarea>
+    <a class="nav-item" href="#">
+      <img src="https://i.ibb.co/FkW8VzgF/assignments.png" alt="">
+      Assignments
+    </a>
 
-      <button type="submit">Send</button>
-      <div id="confirmMsg">Your question has been sent!</div>
-    </form>
-  </div>
+    <a class="nav-item" href="#">
+      <img src="https://i.ibb.co/TqrkTj12/material.png" alt="">
+      Materials
+    </a>
 
-  <div class="box">
-    <h1>Your Questions</h1>
+    <a class="nav-item" href="#">
+      <img src="https://i.ibb.co/1GfKKZMc/tests.png" alt="">
+      Tests
+    </a>
 
-    <div class="question">
-      <strong>Certificate of payment fee</strong>
-      <p class="answered">Answered</p>
-      <p>Financial Affairs Division - Jul 20, 2026</p>
+    <a class="nav-item" href="#">
+      <img src="https://i.ibb.co/Fkx3ct6X/grades.png" alt="">
+      Grades
+    </a>
+
+    <a class="nav-item" href="#">
+      <img src="https://i.ibb.co/7xZK7PLt/Q-A.png" alt="">
+      Q&amp;A
+    </a>
+
+    <div class="schedule-card">
+
+      <h3>Registered Classes</h3>
+
+      <ul class="schedule-list">
+
+        <li>
+          <a class="schedule-link" href="introduction-to-design.html">
+            <span class="schedule-num">1</span>
+            <span><b>Introduction to Design</b></span>
+          </a>
+        </li>
+
+        <li>
+          <a class="schedule-link" href="calculus-linear-algebra.html">
+            <span class="schedule-num">2</span>
+            <span><b>Calculus and Linear...</b></span>
+          </a>
+        </li>
+
+        <li>
+          <a class="schedule-link" href="engineering-physics-2.html">
+            <span class="schedule-num">3</span>
+            <span><b>Engineering Physics 2</b></span>
+          </a>
+        </li>
+
+        <li>
+          <a class="schedule-link" href="elementary-japanese-3.html">
+            <span class="schedule-num">4</span>
+            <span><b>Elementary Japanese 3</b></span>
+          </a>
+        </li>
+
+        <li>
+          <a class="schedule-link" href="algorithmic-thinking-and-programming.html">
+            <span class="schedule-num">5</span>
+            <span><b>Algorithmic Thinking...</b></span>
+          </a>
+        </li>
+
+        <li>
+          <a class="schedule-link" href="sls-3.html">
+            <span class="schedule-num">6</span>
+            <span><b>SLS III</b></span>
+          </a>
+        </li>
+
+        <li>
+          <a class="schedule-link" href="fundamentals-of-mechanics.html">
+            <span class="schedule-num">7</span>
+            <span><b>Fundamentals of...</b></span>
+          </a>
+        </li>
+
+      </ul>
+
     </div>
 
-    <div class="question">
-      <strong>Lost student ID</strong>
-      <p class="pending">Pending</p>
-      <p>Student Affairs Center - Jul 22, 2026</p>
+  </aside>
+
+  <main class="main">
+
+    <div class="box">
+
+      <h1>Ask a Question</h1>
+
+      <form id="qaForm">
+
+        <label>Send to:</label>
+
+        <select>
+          <option>Student Affairs Center</option>
+          <option>Financial Affairs Division</option>
+          <option>Academic Office</option>
+        </select>
+
+        <label>Subject:</label>
+
+        <input type="text" required>
+
+        <label>Message:</label>
+
+        <textarea rows="4" required></textarea>
+
+        <button type="submit">Send</button>
+
+        <div id="confirmMsg">
+          Your question has been sent!
+        </div>
+
+      </form>
+
     </div>
-  </div>
 
-  <script>
-    var form = document.getElementById("qaForm");
-    var confirmMsg = document.getElementById("confirmMsg");
+    <div class="box">
 
-    form.addEventListener("submit", function (event) {
-      event.preventDefault(); // stops the page from refreshing when the form is sent
+      <h1>Your Questions</h1>
 
-      confirmMsg.style.display = "block"; // show the confirmation box
-      form.reset(); // clear the form fields
+      <div class="question">
 
-      // hide the confirmation again after 4 seconds
-      setTimeout(function () {
-        confirmMsg.style.display = "none";
-      }, 4000);
-    });
-  </script>
+        <strong>Certificate of payment fee</strong>
+
+        <p class="answered">Answered</p>
+
+        <p>Financial Affairs Division - Jul 20, 2026</p>
+
+      </div>
+
+      <div class="question">
+
+        <strong>Lost student ID</strong>
+
+        <p class="pending">Pending</p>
+
+        <p>Student Affairs Center - Jul 22, 2026</p>
+
+      </div>
+
+    </div>
+
+  </main>
+
+</div>
+
+<script>
+var form = document.getElementById("qaForm");
+var confirmMsg = document.getElementById("confirmMsg");
+
+form.addEventListener("submit", function (event) {
+
+  event.preventDefault();
+
+  confirmMsg.style.display = "block";
+
+  form.reset();
+
+  setTimeout(function () {
+    confirmMsg.style.display = "none";
+  }, 4000);
+
+});
+</script>
 
 </body>
 
