@@ -1,4 +1,5 @@
 /* Logo */
+<style>
 .logo {
     width: auto;
     height: auto;
@@ -31,42 +32,6 @@ window.toggleMenu = function () {
     document.getElementById("sidebar")
             .classList.toggle("active");
 };
-
-menuBtn.addEventListener("click", toggleMenu);
-<header>
-        <img
-            class="logo"
-            src="https://www.kuas.ac.jp/wp-content/themes/kuasuni-theme/build/images/kuasuni-logo-sm.png"
-            alt="KUAS Logo">
-        <h1>KUAS ナビ</h1>
-
-        <button class="menu-btn">☰</button>
-        </button>
-    </header>
-
-    <div id="sidebar" class="sidebar">
-    
-        <button class="close-btn" onclick="toggleMenu()">✕</button>
-    
-        <h3>Academic</h3>
-        <a href="#">Schedule</a>
-        <a href="#">Attendance</a>
-        <a href="#">Class Profile</a>
-    
-        <h3>Student Services</h3>
-        <a href="#">MyStep</a>
-        <a href="#">Q&A</a>
-        <a href="#">Notices</a>
-    
-        <h3>Communication</h3>
-        <a href="#">Sentan Mail</a>
-        <a href="#">Announcements</a>
-    
-        <h3>Settings</h3>
-        <a href="#">Preferences</a>
-    
-    </div>
-
 :root {
     --primary-green: #0e955a;
     --secondary-green: #90c41f;
@@ -205,3 +170,39 @@ background: var(--primary-green);
     color: var(--primary-green);
     margin-bottom: 10px;
 }
+</style>
+
+menuBtn.addEventListener("click", toggleMenu);
+<header>
+        <img
+            class="logo"
+            src="https://www.kuas.ac.jp/wp-content/themes/kuasuni-theme/build/images/kuasuni-logo-sm.png"
+            alt="KUAS Logo">
+        <h1>KUAS ナビ</h1>
+
+        <button class="menu-btn">☰</button>
+        </button>
+    </header>
+
+    <div id="sidebar" class="sidebar">
+    
+        <button class="close-btn" onclick="toggleMenu()">✕</button>
+    
+        <h3>Academic</h3>
+        <a href="#">Schedule</a>
+        <a href="#">Attendance</a>
+        <a href="#">Class Profile</a>
+    
+        <h3>Student Services</h3>
+        <a href="#">MyStep</a>
+        <a href="#">Q&A</a>
+        <a href="#">Notices</a>
+    
+        <h3>Communication</h3>
+        <a href="#">Sentan Mail</a>
+        <a href="#">Announcements</a>
+    
+        <h3>Settings</h3>
+        <a href="#">Preferences</a>
+    
+    </div>
