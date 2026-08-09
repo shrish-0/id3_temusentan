@@ -1,251 +1,641 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
-  <title>Sentan Navi - Calendar</title>
-  <style>
-    /* ---- basic page styling ---- */
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #f4f4f4;
-      /* KUAS light grey */
-      margin: 0;
-      padding: 20px;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sentan Navi - Calendar</title>
 
-    /* ---- top bar ---- */
-    .topbar {
-      background-color: #0e995a;
-      /* KUAS green */
-      color: white;
-      padding: 15px 20px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin: -20px -20px 20px -20px;
-    }
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-    .topbar a {
-      color: white;
-      text-decoration: none;
-      margin-left: 15px;
-      font-size: 14px;
-    }
+<style>
+:root {
+  --green-deep: #17965d;
+  --green-mid: #3f8a63;
+  --lime: #8dc63f;
+  --link-blue: #3b5fe0;
+  --ink: #1b241f;
+  --ink-soft: #5b6862;
+  --bg: #fbfcfa;
+  --card-bg: #ffffff;
+  --radius-lg: 22px;
+}
 
-    /* ---- calendar box ---- */
-    .calendar-box {
-      background-color: white;
-      border: 1px solid #f4f4f4;
-      /* only grey used */
-      border-radius: 6px;
-      padding: 15px;
-      max-width: 700px;
-    }
+* {
+  box-sizing: border-box;
+}
 
-    .calendar-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 15px;
-    }
+body {
+  margin: 0;
+  background: var(--bg);
+  font-family: 'Inter', sans-serif;
+  color: var(--ink);
+}
 
-    .calendar-header h1 {
-      font-size: 20px;
-      color: #0e995a;
-    }
+h1, h3 {
+  font-family: 'Poppins', sans-serif;
+}
 
-    button {
-      background-color: #0e995a;
-      color: white;
-      border: none;
-      padding: 6px 12px;
-      border-radius: 4px;
-      cursor: pointer;
-    }
+img {
+  display: block;
+}
 
-    button:hover {
-      background-color: #90c41f;
-    }
+.topbar {
+  background-color: var(--green-deep);
+  color: white;
+  padding: 15px 25px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
 
-    .day-grid {
-      display: grid;
-      grid-template-columns: repeat(7, 1fr);
-      gap: 5px;
-    }
+.topbar strong {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.2rem;
+}
 
-    .day-grid div {
-      text-align: center;
-      padding: 12px 5px;
-      background-color: #f4f4f4;
-      /* only grey used */
-      border-radius: 4px;
-      font-size: 14px;
-    }
+.topbar a {
+  color: white;
+  text-decoration: none;
+  margin-left: 20px;
+  font-size: 14px;
+  font-weight: 600;
+}
 
-    .weekday {
-      font-weight: bold;
-      background-color: transparent !important;
-      color: #0e995a;
-    }
+.topbar a:hover {
+  color: var(--lime);
+}
 
-    .today {
-      background-color: #90c41f !important;
-      font-weight: bold;
-      color: white;
-    }
+.app {
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  min-height: calc(100vh - 54px);
+}
 
-    .event {
-      display: block;
-      font-size: 10px;
-      color: #0e995a;
-      margin-top: 3px;
-    }
-  </style>
+.sidebar {
+  padding: 32px 20px;
+  border-right: 1px solid #eef1ec;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 10px;
+  border-radius: 12px;
+  color: var(--green-deep);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.nav-item:hover {
+  background: #eef7ee;
+}
+
+.nav-item img {
+  width: 22px;
+  height: 22px;
+}
+
+.schedule-card {
+  margin-top: 48px;
+  border: 2px solid var(--green-deep);
+  border-radius: var(--radius-lg);
+  padding: 18px 16px;
+}
+
+.schedule-list {
+  list-style: none;
+  margin: 0 0 12px;
+  padding: 0;
+}
+
+.schedule-list li {
+  margin-bottom: 2px;
+  font-size: .85rem;
+}
+
+.schedule-num {
+  font-weight: 700;
+  color: var(--green-mid);
+}
+
+.schedule-list b {
+  font-size: .88rem;
+  font-weight: 600;
+}
+
+.schedule-link {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px;
+  margin: 0 -8px;
+  border-radius: 8px;
+  text-decoration: none;
+  color: inherit;
+}
+
+.schedule-link:hover {
+  background: #eef7ee;
+}
+
+.schedule-link.active {
+  background: #eef7ee;
+}
+
+.main {
+  padding: 32px 40px 48px;
+}
+
+.calendar-box {
+  background: var(--card-bg);
+  border: 2px solid var(--lime);
+  border-radius: var(--radius-lg);
+  padding: 22px 26px;
+  max-width: 900px;
+  margin-bottom: 22px;
+}
+
+.calendar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.calendar-header h1 {
+  font-size: 1.6rem;
+  color: var(--green-deep);
+  margin: 0;
+}
+
+.calendar-buttons {
+  display: flex;
+  gap: 8px;
+}
+
+button {
+  background-color: var(--green-deep);
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+}
+
+button:hover {
+  background-color: var(--lime);
+}
+
+.day-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 6px;
+}
+
+.day-grid div {
+  min-height: 80px;
+  text-align: center;
+  padding: 12px 5px;
+  background-color: #f4f6f5;
+  border-radius: 8px;
+  font-size: 14px;
+}
+
+.day-grid .weekday {
+  min-height: auto;
+  padding: 8px 5px;
+  background-color: transparent;
+  font-weight: 700;
+  color: var(--green-deep);
+}
+
+.day-grid .today {
+  background-color: var(--lime);
+  font-weight: bold;
+  color: white;
+}
+
+.event {
+  display: block;
+  font-size: 10px;
+  color: var(--green-deep);
+  background: white;
+  border-radius: 5px;
+  padding: 3px;
+  margin-top: 6px;
+}
+
+.today .event {
+  color: var(--green-deep);
+}
+
+.add-event-title {
+  font-size: 1.1rem;
+  color: var(--ink-soft);
+  margin-top: 0;
+}
+
+#addEventForm {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  align-items: flex-end;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.form-group label {
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.form-group input {
+  padding: 8px;
+  border: 1px solid #dce3dd;
+  border-radius: 7px;
+  font-family: 'Inter', sans-serif;
+}
+
+.event-name {
+  flex: 1;
+  min-width: 180px;
+}
+
+.event-name input {
+  width: 100%;
+}
+
+@media (max-width: 1000px) {
+  .app {
+    grid-template-columns: 1fr;
+  }
+
+  .sidebar {
+    border-right: none;
+    border-bottom: 1px solid #eef1ec;
+  }
+}
+
+@media (max-width: 600px) {
+  .topbar {
+    padding: 14px 16px;
+  }
+
+  .topbar a {
+    margin-left: 10px;
+    font-size: 12px;
+  }
+
+  .main {
+    padding: 24px 18px 40px;
+  }
+
+  .calendar-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .day-grid {
+    gap: 3px;
+  }
+
+  .day-grid div {
+    min-height: 60px;
+    font-size: 12px;
+    padding: 8px 3px;
+  }
+
+  .event {
+    font-size: 8px;
+  }
+}
+</style>
 </head>
 
 <body>
 
-  <div class="topbar">
-    <strong>Sentan Navi</strong>
-    <div>
-      <a href="#">Home</a>
-      <a href="#">Calendar</a>
-      <a href="#">Q&A</a>
-    </div>
+<div class="topbar">
+  <strong>Sentan Navi</strong>
+
+  <div>
+    <a href="#">Home</a>
+    <a href="#">Calendar</a>
+    <a href="#">Q&amp;A</a>
   </div>
+</div>
 
-  <div class="calendar-box">
-    <div class="calendar-header">
-      <h1 id="monthTitle">July 2026</h1>
-      <div>
-        <button onclick="changeMonth(-1)">Previous</button>
-        <button onclick="changeMonth(1)">Next</button>
-      </div>
+<div class="app">
+
+  <aside class="sidebar">
+
+    <a class="nav-item" href="#">
+      <img src="https://i.ibb.co/B52rXLsW/home.png" alt="">
+      Dashboard
+    </a>
+
+    <a class="nav-item" href="#">
+      <img src="https://i.ibb.co/FkW8VzgF/assignments.png" alt="">
+      Assignments
+    </a>
+
+    <a class="nav-item" href="#">
+      <img src="https://i.ibb.co/TqrkTj12/material.png" alt="">
+      Materials
+    </a>
+
+    <a class="nav-item" href="#">
+      <img src="https://i.ibb.co/1GfKKZMc/tests.png" alt="">
+      Tests
+    </a>
+
+    <a class="nav-item" href="#">
+      <img src="https://i.ibb.co/Fkx3ct6X/grades.png" alt="">
+      Grades
+    </a>
+
+    <a class="nav-item" href="#">
+      <img src="https://i.ibb.co/7xZK7PLt/Q-A.png" alt="">
+      Q&amp;A
+    </a>
+
+    <div class="schedule-card">
+
+      <h3>Registered Classes</h3>
+
+      <ul class="schedule-list">
+
+        <li>
+          <a class="schedule-link" href="introduction-to-design.html">
+            <span class="schedule-num">1</span>
+            <span><b>Introduction to Design</b></span>
+          </a>
+        </li>
+
+        <li>
+          <a class="schedule-link" href="calculus-linear-algebra.html">
+            <span class="schedule-num">2</span>
+            <span><b>Calculus and Linear...</b></span>
+          </a>
+        </li>
+
+        <li>
+          <a class="schedule-link" href="engineering-physics-2.html">
+            <span class="schedule-num">3</span>
+            <span><b>Engineering Physics 2</b></span>
+          </a>
+        </li>
+
+        <li>
+          <a class="schedule-link" href="elementary-japanese-3.html">
+            <span class="schedule-num">4</span>
+            <span><b>Elementary Japanese 3</b></span>
+          </a>
+        </li>
+
+        <li>
+          <a class="schedule-link" href="algorithmic-thinking-and-programming.html">
+            <span class="schedule-num">5</span>
+            <span><b>Algorithmic Thinking...</b></span>
+          </a>
+        </li>
+
+        <li>
+          <a class="schedule-link" href="sls-3.html">
+            <span class="schedule-num">6</span>
+            <span><b>SLS III</b></span>
+          </a>
+        </li>
+
+        <li>
+          <a class="schedule-link" href="fundamentals-of-mechanics.html">
+            <span class="schedule-num">7</span>
+            <span><b>Fundamentals of...</b></span>
+          </a>
+        </li>
+
+      </ul>
+
     </div>
 
-    <div class="day-grid" id="dayGrid">
-      <!-- filled in by JavaScript below -->
+  </aside>
+
+  <main class="main">
+
+    <div class="calendar-box">
+
+      <div class="calendar-header">
+
+        <h1 id="monthTitle">July 2026</h1>
+
+        <div class="calendar-buttons">
+          <button onclick="changeMonth(-1)">Previous</button>
+          <button onclick="changeMonth(1)">Next</button>
+        </div>
+
+      </div>
+
+      <div class="day-grid" id="dayGrid"></div>
+
     </div>
-  </div>
 
-  <div class="calendar-box" style="margin-top:15px; max-width:700px;">
-    <h1 style="font-size:16px; color:#48604d; margin-top:0;">Add an event to this month</h1>
-    <form id="addEventForm" style="display:flex; gap:10px; flex-wrap:wrap; align-items:flex-end;">
-      <div>
-        <label style="display:block; font-size:13px; margin-bottom:4px;">Day of month</label>
-        <input type="number" id="eventDay" min="1" max="31" required style="width:80px; padding:6px;">
-      </div>
-      <div style="flex:1; min-width:150px;">
-        <label style="display:block; font-size:13px; margin-bottom:4px;">Event name</label>
-        <input type="text" id="eventLabel" required style="width:100%; padding:6px; box-sizing:border-box;">
-      </div>
-      <button type="submit">Add event</button>
-    </form>
-  </div>
+    <div class="calendar-box">
 
-  <script>
-    // which month/year we're currently showing
-    var currentMonth = 6; // 0 = January, so 6 = July
-    var currentYear = 2026;
+      <h1 class="add-event-title">Add an event to this month</h1>
 
-    var monthNames = ["January", "February", "March", "April", "May", "June",
-      "July", "August", "September", "October", "November", "December"];
+      <form id="addEventForm">
 
-    // a simple lookup of events: "month-day" -> list of event names
-    var events = {
-      "6-24": ["Tuition due"],
-      "6-29": ["Scholarship deadline"],
-      "6-3": ["Intensive begins"]
-    };
+        <div class="form-group">
 
-    function drawCalendar() {
-      var grid = document.getElementById("dayGrid");
-      grid.innerHTML = ""; // clear out the old month first
+          <label for="eventDay">Day of month</label>
 
-      document.getElementById("monthTitle").innerText = monthNames[currentMonth] + " " + currentYear;
+          <input
+            type="number"
+            id="eventDay"
+            min="1"
+            max="31"
+            required>
 
-      // add the weekday labels first
-      var weekdays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-      for (var i = 0; i < 7; i++) {
-        var label = document.createElement("div");
-        label.innerText = weekdays[i];
-        label.className = "weekday";
-        grid.appendChild(label);
-      }
+        </div>
 
-      // figure out how many days are in this month
-      var daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
-      // figure out what weekday the 1st falls on (0 = Sunday)
-      var startDay = new Date(currentYear, currentMonth, 1).getDay();
+        <div class="form-group event-name">
 
-      // add blank boxes before day 1 so it lines up under the right weekday
-      for (var i = 0; i < startDay; i++) {
-        var blank = document.createElement("div");
-        grid.appendChild(blank);
-      }
+          <label for="eventLabel">Event name</label>
 
-      // add a box for every day in the month
-      for (var day = 1; day <= daysInMonth; day++) {
-        var dayBox = document.createElement("div");
-        dayBox.innerText = day;
+          <input
+            type="text"
+            id="eventLabel"
+            required>
 
-        // check if this is today (hardcoded to July 24, 2026 for this demo)
-        if (currentMonth === 6 && currentYear === 2026 && day === 24) {
-          dayBox.className = "today";
-        }
+        </div>
 
-        // check if there are any events on this day
-        var key = currentMonth + "-" + day;
-        if (events[key]) {
-          for (var e = 0; e < events[key].length; e++) {
-            var eventText = document.createElement("span");
-            eventText.className = "event";
-            eventText.innerText = events[key][e];
-            dayBox.appendChild(eventText);
-          }
-        }
+        <button type="submit">Add event</button>
 
-        grid.appendChild(dayBox);
+      </form>
+
+    </div>
+
+  </main>
+
+</div>
+
+<script>
+var currentMonth = 6;
+var currentYear = 2026;
+
+var monthNames = [
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December"
+];
+
+var events = {
+  "6-24": ["Tuition due"],
+  "6-29": ["Scholarship deadline"],
+  "6-3": ["Intensive begins"]
+};
+
+function drawCalendar() {
+
+  var grid = document.getElementById("dayGrid");
+
+  grid.innerHTML = "";
+
+  document.getElementById("monthTitle").innerText =
+    monthNames[currentMonth] + " " + currentYear;
+
+  var weekdays = [
+    "Sun",
+    "Mon",
+    "Tue",
+    "Wed",
+    "Thu",
+    "Fri",
+    "Sat"
+  ];
+
+  for (var i = 0; i < 7; i++) {
+
+    var label = document.createElement("div");
+
+    label.innerText = weekdays[i];
+
+    label.className = "weekday";
+
+    grid.appendChild(label);
+  }
+
+  var daysInMonth =
+    new Date(currentYear, currentMonth + 1, 0).getDate();
+
+  var startDay =
+    new Date(currentYear, currentMonth, 1).getDay();
+
+  for (var i = 0; i < startDay; i++) {
+
+    var blank = document.createElement("div");
+
+    grid.appendChild(blank);
+  }
+
+  for (var day = 1; day <= daysInMonth; day++) {
+
+    var dayBox = document.createElement("div");
+
+    dayBox.innerText = day;
+
+    if (
+      currentMonth === 6 &&
+      currentYear === 2026 &&
+      day === 24
+    ) {
+      dayBox.className = "today";
+    }
+
+    var key = currentMonth + "-" + day;
+
+    if (events[key]) {
+
+      for (var e = 0; e < events[key].length; e++) {
+
+        var eventText = document.createElement("span");
+
+        eventText.className = "event";
+
+        eventText.innerText = events[key][e];
+
+        dayBox.appendChild(eventText);
       }
     }
 
-    function changeMonth(direction) {
-      currentMonth = currentMonth + direction;
+    grid.appendChild(dayBox);
+  }
+}
 
-      // roll over into the next/previous year if needed
-      if (currentMonth > 11) {
-        currentMonth = 0;
-        currentYear++;
-      } else if (currentMonth < 0) {
-        currentMonth = 11;
-        currentYear--;
-      }
+function changeMonth(direction) {
 
-      drawCalendar();
+  currentMonth = currentMonth + direction;
+
+  if (currentMonth > 11) {
+
+    currentMonth = 0;
+    currentYear++;
+
+  } else if (currentMonth < 0) {
+
+    currentMonth = 11;
+    currentYear--;
+  }
+
+  drawCalendar();
+}
+
+document
+  .getElementById("addEventForm")
+  .addEventListener("submit", function(event) {
+
+    event.preventDefault();
+
+    var day =
+      document.getElementById("eventDay").value;
+
+    var label =
+      document.getElementById("eventLabel").value;
+
+    var key =
+      currentMonth + "-" + day;
+
+    if (!events[key]) {
+      events[key] = [];
     }
 
-    // ---- handle the "add an event" form ----
-    document.getElementById("addEventForm").addEventListener("submit", function (event) {
-      event.preventDefault(); // stop the page from refreshing
+    events[key].push(label);
 
-      var day = document.getElementById("eventDay").value;
-      var label = document.getElementById("eventLabel").value;
-
-      var key = currentMonth + "-" + day; // save it under whatever month is showing right now
-
-      // if this day doesn't have any events yet, start a new empty list
-      if (!events[key]) {
-        events[key] = [];
-      }
-      events[key].push(label);
-
-      drawCalendar(); // redraw so the new event shows up right away
-      document.getElementById("addEventForm").reset();
-    });
-
-    // draw the calendar as soon as the page loads
     drawCalendar();
-  </script>
+
+    document.getElementById("addEventForm").reset();
+  });
+
+drawCalendar();
+</script>
 
 </body>
 
