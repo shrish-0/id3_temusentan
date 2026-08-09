@@ -3,9 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Python — Dashboard</title>
+<title>Fundamentals of Mechanics — Dashboard</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
 <style>
   :root{
     --green-deep:#17965d;
@@ -22,7 +23,9 @@
     --text-dark:#222;
   }
 
-  *{box-sizing:border-box;}
+  *{
+    box-sizing:border-box;
+  }
 
   body{
     margin:0;
@@ -31,8 +34,13 @@
     color:var(--ink);
   }
 
-  h1,h3{font-family:'Poppins',sans-serif;}
-  img{display:block;}
+  h1,h3{
+    font-family:'Poppins',sans-serif;
+  }
+
+  img{
+    display:block;
+  }
 
   header{
     display:flex;
@@ -56,6 +64,10 @@
     width:auto;
     height:auto;
     max-height:55px;
+  }
+
+  .logo-link{
+    display:block;
   }
 
   .menu-btn{
@@ -122,6 +134,7 @@
     cursor:pointer;
     color:var(--primary-green);
     margin-bottom:10px;
+    padding:5px;
   }
 
   .app{
@@ -146,14 +159,24 @@
     text-decoration:none;
   }
 
-  .nav-item:hover{background:#eef7ee;}
-  .nav-item img{width:22px;height:22px;}
+  .nav-item:hover{
+    background:#eef7ee;
+  }
+
+  .nav-item img{
+    width:22px;
+    height:22px;
+  }
 
   .schedule-card{
     margin-top:48px;
     border:2px solid var(--green-deep);
     border-radius:var(--radius-lg);
     padding:18px 16px;
+  }
+
+  .schedule-card h3{
+    margin-top:0;
   }
 
   .schedule-list{
@@ -188,8 +211,13 @@
     color:inherit;
   }
 
-  .schedule-link:hover{background:#eef7ee;}
-  .schedule-link.active{background:#eef7ee;}
+  .schedule-link:hover{
+    background:#eef7ee;
+  }
+
+  .schedule-link.active{
+    background:#eef7ee;
+  }
 
   .view-link{
     color:var(--link-blue);
@@ -198,7 +226,9 @@
     text-decoration:none;
   }
 
-  .view-link:hover{text-decoration:underline;}
+  .view-link:hover{
+    text-decoration:underline;
+  }
 
   .main{
     padding:32px 40px 48px;
@@ -216,6 +246,7 @@
   .icon h1{
     margin:0 0 14px;
     font-size:2rem;
+    max-width:70%;
   }
 
   .icon-details{
@@ -248,6 +279,12 @@
     background:var(--card-bg);
     padding:22px 20px;
     text-align:center;
+    transition:0.2s ease;
+  }
+
+  .stat-card:hover{
+    transform:translateY(-3px);
+    box-shadow:0 5px 15px rgba(0,0,0,0.08);
   }
 
   .stat-card h3{
@@ -351,6 +388,7 @@
   }
 
   @media (max-width:1000px){
+
     .app{
       grid-template-columns:1fr;
     }
@@ -374,6 +412,7 @@
   }
 
   @media (max-width:600px){
+
     header{
       padding:12px 16px;
     }
@@ -399,6 +438,23 @@
     .stats-grid{
       grid-template-columns:1fr;
     }
+
+    .sidebar{
+      padding:20px 16px;
+    }
+
+    .nav-sidebar{
+      width:280px;
+      right:-280px;
+    }
+
+    .announce-item{
+      flex-direction:column;
+    }
+
+    .announce-date{
+      text-align:left;
+    }
   }
 </style>
 </head>
@@ -406,39 +462,40 @@
 <body>
 
 <header>
-  <a href="homepage.html">
+
+  <a href="homepage.html" class="logo-link">
     <img
-    class="logo"
-    src="https://www.kuas.ac.jp/wp-content/themes/kuasuni-theme/build/images/kuasuni-logo-sm.png"
-    alt="KUAS Logo">
-  </a>>
+      class="logo"
+      src="https://www.kuas.ac.jp/wp-content/themes/kuasuni-theme/build/images/kuasuni-logo-sm.png"
+      alt="KUAS Logo">
+  </a>
 
   <h1>KUAS ナビ</h1>
 
-  <button class="menu-btn">☰</button>
+  <button class="menu-btn" type="button">☰</button>
+
 </header>
 
 <div id="nav-sidebar" class="nav-sidebar">
 
-    <button class="close-btn" onclick="toggleMenu()">✕</button>
+  <button class="close-btn" type="button" onclick="toggleMenu()">✕</button>
 
-    <h3>Academic</h3>
-    <a href="ID3-Calendar.html">Schedule</a>
-    <a href="#">Attendance</a>
-    <a href="calculus-linear-algebra.html">Class Profile</a>
+  <h3>Academic</h3>
+  <a href="ID3-Calendar.html">Schedule</a>
+  <a href="#">Attendance</a>
+  <a href="calculus-linear-algebra.html">Class Profile</a>
 
-    <h3>Student Services</h3>
-    <a href="registration.html">Registration</a>
-    <a href="ID3-QnA.html">Q&amp;A</a>
-    <a href="#">Notices</a>
+  <h3>Student Services</h3>
+  <a href="registration.html">Registration</a>
+  <a href="ID3-QnA.html">Q&amp;A</a>
+  <a href="#">Notices</a>
 
-    <h3>Communication</h3>
-    <a href="#">Sentan Mail</a>
-    <a href="#">Announcements</a>
+  <h3>Communication</h3>
+  <a href="#">Sentan Mail</a>
+  <a href="#">Announcements</a>
 
-    <h3>Settings</h3>
-    <a href="#">Preferences</a>
-
+  <h3>Settings</h3>
+  <a href="#">Preferences</a>
 
 </div>
 
@@ -471,7 +528,7 @@
       Grades
     </a>
 
-    <a class="nav-item" href="#">
+    <a class="nav-item" href="ID3-QnA.html">
       <img src="https://i.ibb.co/7xZK7PLt/Q-A.png" alt="">
       Q&amp;A
     </a>
@@ -563,13 +620,16 @@
     <section class="stats-grid">
 
       <div class="stat-card">
+
         <h3>Assignments</h3>
 
         <img
           src="https://i.ibb.co/FkW8VzgF/assignment.png"
           alt="">
 
-        <div class="stat-value">6</div>
+        <div class="stat-value">
+          6
+        </div>
 
         <div class="stat-label">
           Pending
@@ -578,16 +638,20 @@
         <a class="view-link" href="#">
           View All &gt;
         </a>
+
       </div>
 
       <div class="stat-card">
+
         <h3>Materials</h3>
 
         <img
           src="https://i.ibb.co/TqrkTj12/material.png"
           alt="">
 
-        <div class="stat-value">2</div>
+        <div class="stat-value">
+          2
+        </div>
 
         <div class="stat-label">
           Files
@@ -596,9 +660,11 @@
         <a class="view-link" href="#">
           View All &gt;
         </a>
+
       </div>
 
       <div class="stat-card">
+
         <h3>Grades</h3>
 
         <img
@@ -619,9 +685,11 @@
         <a class="view-link" href="#">
           View Details &gt;
         </a>
+
       </div>
 
       <div class="stat-card">
+
         <h3>Q&amp;A</h3>
 
         <img
@@ -636,9 +704,10 @@
           Inquiries
         </div>
 
-        <a class="view-link" href="#">
+        <a class="view-link" href="ID3-QnA.html">
           View Details &gt;
         </a>
+
       </div>
 
     </section>
@@ -716,6 +785,7 @@
 </div>
 
 <script>
+
   const menuBtn = document.querySelector(".menu-btn");
   const navSidebar = document.getElementById("nav-sidebar");
 
@@ -724,6 +794,7 @@
   };
 
   menuBtn.addEventListener("click", toggleMenu);
+
 </script>
 
 </body>
