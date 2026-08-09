@@ -29,43 +29,102 @@ body {
 
 header {
     grid-column: 1 / -1;
-    background: white;
-    border-bottom: 4px solid #0e995a;
-    padding: 15px 20px;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-}
-
-.logo {
-    width: 150px;
-    height: auto;
+    padding: 15px 25px;
+    background: white;
+    border-bottom: 4px solid #90c41f;
+    margin: -20px -20px 20px -20px;
 }
 
 header h1 {
-    color: #0e995a;
-    font-size: 2.5rem;
-    margin-left: auto;
-    margin-right: 30px;
+    flex: 1;
+    text-align: center;
+    color: #0e955a;
+    font-size: 2.2rem;
+    font-weight: bold;
+    margin: 0;
+}
+
+.logo {
+    width: auto;
+    height: auto;
+    max-height: 55px;
+}
+
+.logo-link {
+    display: block;
 }
 
 .menu-btn {
     width: 60px;
     height: 60px;
+    border: none;
+    border-radius: 12px;
+    background: #0e955a;
+    color: white;
     font-size: 2rem;
-    border: 3px solid #0e995a;
-    border-radius: 10px;
-    background: white;
-    color: #0e995a;
     cursor: pointer;
-    transition: 0.2s;
+    transition: 0.2s ease;
+    margin: 0;
+    padding: 0;
 }
 
 .menu-btn:hover {
-    background: #0e995a;
+    background: #90c41f;
+}
+
+.nav-sidebar {
+    position: fixed;
+    top: 0;
+    right: -300px;
+    width: 300px;
+    height: 100vh;
+    background: white;
+    border-left: 4px solid #0e955a;
+    padding: 20px;
+    transition: right 0.3s ease;
+    z-index: 1000;
+    box-shadow: -2px 0 15px rgba(0, 0, 0, 0.2);
+    overflow-y: auto;
+    box-sizing: border-box;
+}
+
+.nav-sidebar.active {
+    right: 0;
+}
+
+.nav-sidebar h3 {
+    margin-top: 25px;
+    margin-bottom: 10px;
+    color: #0e955a;
+    border-bottom: 2px solid #90c41f;
+    padding-bottom: 5px;
+}
+
+.nav-sidebar a {
+    display: block;
+    text-decoration: none;
+    color: #222;
+    padding: 10px;
+    margin-bottom: 5px;
+    border-radius: 8px;
+}
+
+.nav-sidebar a:hover {
+    background: #90c41f;
     color: white;
-    transform: scale(1.05);
+}
+
+.close-btn {
+    border: none;
+    background: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: #0e955a;
+    margin-bottom: 10px;
+    padding: 5px;
 }
 
 .schedule {
@@ -220,65 +279,6 @@ td:first-child {
     color: #666;
 }
 
-.menu-panel {
-    position: fixed;
-    top: 0;
-    right: -320px;
-    width: 320px;
-    height: 100vh;
-    background: white;
-    box-shadow: -5px 0 20px rgba(0,0,0,0.2);
-    padding: 30px;
-    z-index: 1000;
-    transition: right 0.3s ease;
-}
-
-.menu-panel.open {
-    right: 0;
-}
-
-.menu-panel h2 {
-    color: #0e995a;
-    margin-bottom: 25px;
-}
-
-.menu-panel button {
-    width: 100%;
-    padding: 14px;
-    margin-bottom: 10px;
-    border: none;
-    border-radius: 8px;
-    background: #f1f1f1;
-    text-align: left;
-    cursor: pointer;
-    font-size: 1rem;
-}
-
-.menu-panel button:hover {
-    background: #0e995a;
-    color: white;
-}
-
-.close-menu {
-    background: #ddd !important;
-    text-align: center !important;
-}
-
-.overlay {
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.35);
-    opacity: 0;
-    visibility: hidden;
-    transition: 0.3s;
-    z-index: 999;
-}
-
-.overlay.active {
-    opacity: 1;
-    visibility: visible;
-}
-
 @media (max-width: 900px) {
     .container {
         grid-template-columns: 1fr;
@@ -298,13 +298,22 @@ td:first-child {
         padding: 10px;
     }
 
+    header {
+        padding: 12px 16px;
+    }
+
     header h1 {
-        font-size: 1.7rem;
-        margin-right: 10px;
+        font-size: 1.6rem;
     }
 
     .logo {
-        width: 110px;
+        max-width: 120px;
+    }
+
+    .menu-btn {
+        width: 50px;
+        height: 50px;
+        font-size: 1.6rem;
     }
 
     .dashboard-grid {
@@ -327,15 +336,18 @@ td:first-child {
 <div class="container">
 
 <header>
-    <img
-        class="logo"
-        src="https://www.kuas.ac.jp/wp-content/themes/kuasuni-theme/build/images/kuasuni-logo-sm.png"
-        alt="KUAS Logo"
-    >
+
+    <a href="homepage" class="logo-link">
+        <img
+            class="logo"
+            src="https://www.kuas.ac.jp/wp-content/themes/kuasuni-theme/build/images/kuasuni-logo-sm.png"
+            alt="KUAS Logo">
+    </a>
 
     <h1>KUAS ナビ</h1>
 
-    <button class="menu-btn" id="menuButton">☰</button>
+    <button class="menu-btn" id="menuButton" type="button">☰</button>
+
 </header>
 
 <section class="schedule">
@@ -447,45 +459,40 @@ td:first-child {
 
 </div>
 
-<div class="overlay" id="overlay"></div>
+<div id="nav-sidebar" class="nav-sidebar">
 
-<div class="menu-panel" id="menuPanel">
+    <button class="close-btn" type="button" id="closeMenu">✕</button>
 
-    <h2>KUAS Navi</h2>
+    <h3>Academic</h3>
+    <a href="ID3-Calendar.html">Schedule</a>
+    <a href="#">Attendance</a>
+    <a href="calculus-linear-algebra.html">Class Profile</a>
 
-    <button onclick="showMessage('Home')">🏠 Home</button>
-    <button onclick="showMessage('Notice')">📢 Notices</button>
-    <button onclick="showMessage('Schedule')">📅 Schedule</button>
-    <button onclick="showMessage('Q&A')">❓ Q&A</button>
-    <button onclick="showMessage('MyStep')">📝 MyStep</button>
-    <button onclick="showMessage('Attendance')">✅ Attendance</button>
+    <h3>Student Services</h3>
+    <a href="registration.html">Registration</a>
+    <a href="ID3-QnA.html">Q&amp;A</a>
+    <a href="#">Notices</a>
 
-    <button class="close-menu" id="closeMenu">
-        Close
-    </button>
+    <h3>Communication</h3>
+    <a href="#">Sentan Mail</a>
+    <a href="#">Announcements</a>
+
+    <h3>Settings</h3>
+    <a href="#">Preferences</a>
 
 </div>
 
 <script>
 const menuButton = document.getElementById("menuButton");
-const menuPanel = document.getElementById("menuPanel");
-const overlay = document.getElementById("overlay");
+const navSidebar = document.getElementById("nav-sidebar");
 const closeMenu = document.getElementById("closeMenu");
 
-menuButton.addEventListener("click", function() {
-    menuPanel.classList.add("open");
-    overlay.classList.add("active");
-});
+function toggleMenu() {
+    navSidebar.classList.toggle("active");
+}
 
-closeMenu.addEventListener("click", function() {
-    menuPanel.classList.remove("open");
-    overlay.classList.remove("active");
-});
-
-overlay.addEventListener("click", function() {
-    menuPanel.classList.remove("open");
-    overlay.classList.remove("active");
-});
+menuButton.addEventListener("click", toggleMenu);
+closeMenu.addEventListener("click", toggleMenu);
 
 const days = [
     {
